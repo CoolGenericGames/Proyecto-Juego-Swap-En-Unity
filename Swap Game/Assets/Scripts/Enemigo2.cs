@@ -2,24 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemigo2 : MonoBehaviour
+public class Enemigo2 : Enemigos
 {
-    const int ROJO = 0;
-    const int AZUL = 1;
 
-    public float velXEnemigo;
-    public float velYEnemigo;
-    public float direccion;
-    private float timer;
-    private float cooldown;
-    private bool esRojo;
-
-    public GameObject BalaEnemigo;
-    private GameObject nuevabala;
-
-    public Sprite[] spritesEnemigo;
-    public Sprite spriteBala;
-    // Start is called before the first frame update
+    #region Métodos de Unity
     void Start()
     {
         velXEnemigo = 13f;
@@ -30,48 +16,58 @@ public class Enemigo2 : MonoBehaviour
         else { direccion = -1f; }  //Direccion negativa
     }
 
+    private void OnEnable()
+    {
+        ResetTimer();
+        velYEnemigo = 0f;
+    }
+    private void OnDisable()
+    {
+        ResetTimer();
+        velYEnemigo = 0f;
+    }
+
     // Update is called once per frame
     void Update()
     {
-        timer += Time.deltaTime;
-
-
-        transform.position += new Vector3(direccion * velXEnemigo * Time.deltaTime, velYEnemigo, 0);
+        TimerToShoot();
+        Move();
         velYEnemigo -= 0.001f;
+        Shoot();
 
-        if (esRojo)
-        {
-            gameObject.GetComponent<SpriteRenderer>().sprite = spritesEnemigo[0];
-            esRojo = true;
-        }
-        else
-        {
-            gameObject.GetComponent<SpriteRenderer>().sprite = spritesEnemigo[1];
-            esRojo = false;
-        }
+    }
+    #endregion
 
+    #region Métodos
+    private new void Move()
+    {
+        transform.position += new Vector3(direccion * velXEnemigo * Time.deltaTime, velYEnemigo, 0);
+    }
 
-        //Disparo
+    private new void Shoot()
+    {
         if (timer > cooldown)
         {
-            nuevabala = Instantiate(BalaEnemigo, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+            nuevabala = ObjectsRepository.UseRepository("EnemyBullet", transform.position, Quaternion.identity);
             nuevabala.GetComponent<BalaEnemigo>().ColorBala(esRojo);
-            if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBala;
-            timer = 0f;
+            if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
+            else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
+            ResetTimer();
         }
-
-        Destroy(gameObject, 3);
     }
 
     public void ColorEnemigo(int color)
     {
         if (color == ROJO)
         {
+            gameObject.GetComponent<SpriteRenderer>().sprite = spritesEnemigo[0];
             esRojo = true;
         }
         else // Azul
         {
+            gameObject.GetComponent<SpriteRenderer>().sprite = spritesEnemigo[1];
             esRojo = false;
         }
     }
+    #endregion
 }

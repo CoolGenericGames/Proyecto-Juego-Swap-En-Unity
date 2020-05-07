@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7445515312781655742}
   - component: {fileID: 8183725543137257975}
   - component: {fileID: 4440179093389365522}
+  - component: {fileID: -86804586402847057}
   m_Layer: 0
   m_Name: Enemigo 1
   m_TagString: Enemigo
@@ -97,12 +98,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velEnemigo: 13
+  direccion: 0
   BalaEnemigo: {fileID: 3209530571280822052, guid: 71320050cdd507e4d9cba4f30b7f6c32,
     type: 3}
   spritesEnemigo:
   - {fileID: -1535204401066358648, guid: b8240938a755f784f89219d63e1a4011, type: 3}
   - {fileID: -2799623652728485633, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  spriteBala: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+  spriteBalaRoja: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
+    type: 3}
+  spriteBalaAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
     type: 3}
 --- !u!61 &4440179093389365522
 BoxCollider2D:
@@ -130,3 +134,16 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &-86804586402847057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7445515312781655713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddca1aedc63b7c4b966ed00f4242f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheKey: SquareEnemy

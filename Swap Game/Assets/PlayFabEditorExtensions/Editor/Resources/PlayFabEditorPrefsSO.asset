@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d0199c11aa6f514784c5c69cd8378d8, type: 3}
   m_Name: PlayFabEditorPrefsSO
   m_EditorClassIdentifier: 
-  DevAccountEmail: JoseLuis_AL@Outlook.com
-  DevAccountToken: ebw7gekru5q5ycrsx54sgbduwwa8odhx68811q4uemf36we9xebas1ynt1o7p5zwqe1wceeryus5q9znbcery87uy1tstksxipcii7hrza6wfhazjf91j995hmpj61cigafysmzeyyhbrdfubaffya9qb67dibhboxek43arbyq7e49dh31xsqh18itjdctsg5m358u6
-  SelectedStudio: Cool Generic Games
-  SdkPath: Assets/PlayFabSDK
+  DevAccountEmail: 
+  DevAccountToken: 
+  SelectedStudio: 
+  SdkPath: 
   EdExPath: 
   LocalCloudScriptPath: 
   PanelIsShown: 0
-  curMainMenuIdx: 1
+  curMainMenuIdx: 0
   curSubMenuIdx: 0

@@ -2,77 +2,61 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemigoC : MonoBehaviour
+public class EnemigoC : Enemigos
 {
-	const int ROJO = 0;
-    const int AZUL = 1;
 
-	private float timer;
-    private float cooldown;
-    private bool esRojo;
-	public float  velEnemigoC;
-
-	public GameObject BalaEnemigo;
-    private GameObject nuevabala;
-
-	public Sprite[] spritesEnemigo;
-	public Sprite spriteBala;
-
+    #region Métodos de Unity
     // Start is called before the first frame update
     void Start()
     {
-        
+        velYEnemigo = -5;
     }
 
     // Update is called once per frame
     void Update()
     {
-		timer += Time.deltaTime;
 
-        transform.position += new Vector3(0, velEnemigoC * Time.deltaTime, 0);
+        Move();
+        
+    }
+    #endregion
 
-         if (esRojo)
+    #region Métodos
+    private new void Move()
+    {
+        transform.position += new Vector3(0, velYEnemigo * Time.deltaTime, 0);
+    }
+    public void ColorEnemigo(int color)
+    {
+        if(color == ROJO)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = spritesEnemigo[0];
             esRojo = true;
         }
-        else
+        else // Azul
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = spritesEnemigo[1];
             esRojo = false;
         }
-
-		Destroy(gameObject, 5);
-        
     }
-	public void ColorEnemigo(int color)
-    {
-        if(color == ROJO)
-        {
-            esRojo = true;
-        }
-        else // Azul
-        {
-            esRojo = false;
-        }
-    }
-
-
     public void CrearBala() {
-        nuevabala = Instantiate(BalaEnemigo, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        nuevabala = ObjectsRepository.UseRepository("SpecialBullet", transform.position, Quaternion.identity);
         nuevabala.GetComponent<BalaEnemigoEspecial>().ColorBala(esRojo);
-        if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBala;
-        nuevabala = Instantiate(BalaEnemigo, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
+        else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
+        nuevabala = ObjectsRepository.UseRepository("SpecialBullet", transform.position, Quaternion.identity);
         nuevabala.GetComponent<BalaEnemigoEspecial>().ColorBala(esRojo);
-        if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBala;
-        nuevabala = Instantiate(BalaEnemigo, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
+        else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
+        nuevabala = ObjectsRepository.UseRepository("SpecialBullet", transform.position, Quaternion.identity);
         nuevabala.GetComponent<BalaEnemigoEspecial>().ColorBala(esRojo);
-        if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBala;
-        nuevabala = Instantiate(BalaEnemigo, new Vector2(transform.position.x, transform.position.y), Quaternion.identity);
+        if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
+        else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
+        nuevabala = ObjectsRepository.UseRepository("SpecialBullet", transform.position, Quaternion.identity);
         nuevabala.GetComponent<BalaEnemigoEspecial>().ColorBala(esRojo);
-        if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBala;
-    
+        if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
+        else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
+
     }
-	
-	
+    #endregion
 }

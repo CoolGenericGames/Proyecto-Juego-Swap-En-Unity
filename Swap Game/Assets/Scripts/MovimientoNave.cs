@@ -37,7 +37,8 @@ public class MovimientoNave : MonoBehaviour
     private GameObject nuevabala;
 
     public Sprite[] spritesNave;
-    public Sprite spriteBala;
+    public Sprite spriteBalaRoja;
+    public Sprite spriteBalaAzul;
 
     Color colorParaAlfa;
 
@@ -52,7 +53,7 @@ public class MovimientoNave : MonoBehaviour
 
     #endregion
 
-
+    #region métodos de Unity
     // Start is called before the first frame update
     void Start()
     {
@@ -71,8 +72,10 @@ public class MovimientoNave : MonoBehaviour
         invencible = 0f;
 
 
-        PlayerDisplayNameText.text = PlayFabPlayerData.Get.DisplayName;
+        if(PlayFabPlayerData.Get) PlayerDisplayNameText.text = PlayFabPlayerData.Get.DisplayName;
     }
+
+    
 
     // Update is called once per frame
     void Update()
@@ -120,6 +123,8 @@ public class MovimientoNave : MonoBehaviour
 
     }
 
+    #endregion
+
     void Invencibilidad() {
         if (!naveCollider.enabled)
         {
@@ -138,9 +143,10 @@ public class MovimientoNave : MonoBehaviour
     }
 
     void DispararBala()
-    {
-        nuevabala = Instantiate(Bala, new Vector2(transform.position.x, transform.position.y + naveySize), Quaternion.identity);
-        if (!esRoja) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBala;
+    {        
+        nuevabala = ObjectsRepository.UseRepository("Bullet", new Vector2(transform.position.x, transform.position.y + naveySize), Quaternion.identity) as GameObject;
+        if (!esRoja) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
+        else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -148,19 +154,17 @@ public class MovimientoNave : MonoBehaviour
         if(vidas<=0)vidas = 0;
         if (collision.CompareTag("BalaEnemigo"))
         {
-            if (collision.gameObject.GetComponent<BalaEnemigo>() != null)
+           if (collision.gameObject.GetComponent<BalaEnemigo>() != null)
             {
                 if (collision.gameObject.GetComponent<BalaEnemigo>().esRoja && !esRoja)
                 {
-                    Destroy(collision.gameObject);
-                    //Destroy(gameObject);                
+                    ObjectsRepository.BackToRepository(collision.gameObject);             
                     naveCollider.enabled = false;
                     vidas--;
                 }
                 else if (!collision.gameObject.GetComponent<BalaEnemigo>().esRoja && esRoja)
                 {
-                    Destroy(collision.gameObject);
-                    //Destroy(gameObject);
+                    ObjectsRepository.BackToRepository(collision.gameObject);
                     naveCollider.enabled = false;
                     vidas--;
                 }
@@ -168,15 +172,13 @@ public class MovimientoNave : MonoBehaviour
             else {
                 if (collision.gameObject.GetComponent<BalaEnemigoEspecial>().esRoja && !esRoja)
                 {
-                    Destroy(collision.gameObject);
-                    //Destroy(gameObject);                
+                    ObjectsRepository.BackToRepository(collision.gameObject);              
                     naveCollider.enabled = false;
                     vidas--;
                 }
                 else if (!collision.gameObject.GetComponent<BalaEnemigoEspecial>().esRoja && esRoja)
                 {
-                    Destroy(collision.gameObject);
-                    //Destroy(gameObject);
+                    ObjectsRepository.BackToRepository(collision.gameObject);
                     naveCollider.enabled = false;
                     vidas--;
                 }
@@ -185,15 +187,14 @@ public class MovimientoNave : MonoBehaviour
 
         if (collision.CompareTag("Enemigo"))
         {
-            Destroy(collision.gameObject);
-            //Destroy(gameObject);
+            ObjectsRepository.BackToRepository(collision.gameObject);
             naveCollider.enabled = false;
             vidas--;
         }
 
 		if (collision.CompareTag("EnemigoC"))
         {
-            Destroy(collision.gameObject);
+            ObjectsRepository.BackToRepository(collision.gameObject);
             naveCollider.enabled = false;
             vidas--;
         }

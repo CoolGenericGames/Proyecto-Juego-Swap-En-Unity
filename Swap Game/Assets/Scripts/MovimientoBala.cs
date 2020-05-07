@@ -5,35 +5,31 @@ using UnityEngine;
 public class MovimientoBala : MonoBehaviour
 {
 
-
+    #region Variables
     public float velBala = 30f;
+    #endregion
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    #region Métodos de Unity
 
     // Update is called once per frame
     void Update()
     {
         transform.position += new Vector3(0, velBala * Time.deltaTime, 0);
-
-        Destroy(gameObject, 2);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Enemigo"))
         {
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            ObjectsRepository.BackToRepository(collision.gameObject);
+            ObjectsRepository.BackToRepository(gameObject);
         }
 		if (collision.CompareTag("EnemigoC"))
         {
             collision.GetComponent<EnemigoC>().CrearBala();
-            Destroy(collision.gameObject);
-            Destroy(gameObject);
+            ObjectsRepository.BackToRepository(collision.gameObject);
+            ObjectsRepository.BackToRepository(gameObject);
         }
     }
+    #endregion
 }

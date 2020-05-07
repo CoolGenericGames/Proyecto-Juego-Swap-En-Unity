@@ -5,14 +5,17 @@ using UnityEngine.Tilemaps;
 
 public class Fondo : MonoBehaviour
 {
+    #region Variables
     public float velocidad;
 
     private float xSize;
-    private float ySize;
+    private float ySize;   
     private Vector3 moverAbajo;
+    #endregion
 
     private Camera cam;
 
+    #region Métodos de Unity
     // Start is called before the first frame update
     void Start()
     {
@@ -26,10 +29,10 @@ public class Fondo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        print(Screen.width);
         transform.position += moverAbajo * velocidad * Time.deltaTime;
         if (transform.position.y <= -1f) {
             transform.position -= moverAbajo;
         }
     }
+    #endregion
 }

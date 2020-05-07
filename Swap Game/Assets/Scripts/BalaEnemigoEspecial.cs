@@ -4,12 +4,15 @@ using UnityEngine;
 
 public class BalaEnemigoEspecial : MonoBehaviour
 {
+    #region Variables
     public float velBala;
     public bool esRoja;
 
     float ranX;
     float ranY;
+    #endregion
 
+    #region Métodos de Unity
     // Start is called before the first frame update
     void Start()
     {
@@ -23,12 +26,14 @@ public class BalaEnemigoEspecial : MonoBehaviour
         ranY = Random.Range(-0.05f, 0.1f);
         transform.position -= new Vector3(ranX, ranY + velBala * Time.deltaTime, 0);
 
-        Destroy(gameObject, 5);
     }
+    #endregion
 
+    #region Métodos
     public void ColorBala(bool color)
     {
         if (color) esRoja = true;
         else esRoja = false; // es azul
     }
+    #endregion
 }

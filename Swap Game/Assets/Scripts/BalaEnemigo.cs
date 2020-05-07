@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class BalaEnemigo : MonoBehaviour
 {
+    #region Varibles
     public float velBala;
     public bool esRoja;
-   
+    #endregion
+
+    #region Métodos de Unity
     // Start is called before the first frame update
     void Start()
     {
@@ -17,10 +20,10 @@ public class BalaEnemigo : MonoBehaviour
     void Update()
     {
         transform.position -= new Vector3(0, velBala * Time.deltaTime, 0);
-
-        Destroy(gameObject, 3);
     }
+    #endregion
 
+    #region Métodos
     public void ColorBala(bool color)
     {
         if(color)
@@ -32,5 +35,6 @@ public class BalaEnemigo : MonoBehaviour
             esRoja = false;
         }
     }
+    #endregion
 
 }

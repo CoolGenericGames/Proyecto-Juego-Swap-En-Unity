@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6119362196422959771}
   - component: {fileID: -3592284487800899048}
   - component: {fileID: 2864647041987342929}
+  - component: {fileID: 2156260015917349607}
   m_Layer: 0
   m_Name: EnemigoC
   m_TagString: EnemigoC
@@ -102,7 +103,9 @@ MonoBehaviour:
   spritesEnemigo:
   - {fileID: 7448834561180846053, guid: b8240938a755f784f89219d63e1a4011, type: 3}
   - {fileID: -981496790141133154, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  spriteBala: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+  spriteBalaAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+    type: 3}
+  spriteBalaRoja: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
     type: 3}
 --- !u!58 &2864647041987342929
 CircleCollider2D:
@@ -120,3 +123,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &2156260015917349607
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1818369828762720480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddca1aedc63b7c4b966ed00f4242f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheKey: CircleEnemy

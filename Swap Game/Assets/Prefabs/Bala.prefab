@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 8005303168398653991}
   - component: {fileID: 6558463821873561786}
   - component: {fileID: -3567836551322514895}
+  - component: {fileID: 3238149077863876300}
   m_Layer: 0
   m_Name: Bala
   m_TagString: Untagged
@@ -135,3 +136,16 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
+--- !u!114 &3238149077863876300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6713995050070929635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddca1aedc63b7c4b966ed00f4242f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheKey: Bullet

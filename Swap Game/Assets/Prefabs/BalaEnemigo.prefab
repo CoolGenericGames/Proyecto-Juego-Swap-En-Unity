@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 474876422632545390}
   - component: {fileID: 4951083681413498710}
   - component: {fileID: 7856379037285571902}
+  - component: {fileID: 3634058269822261261}
   m_Layer: 0
   m_Name: BalaEnemigo
   m_TagString: BalaEnemigo
@@ -112,3 +113,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea6b2bee8b20ac943b585fb6200677ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  velBala: 0
+  esRoja: 0
+--- !u!114 &3634058269822261261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3209530571280822052}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddca1aedc63b7c4b966ed00f4242f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheKey: EnemyBullet

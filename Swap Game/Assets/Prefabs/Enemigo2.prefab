@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 9119118960374836701}
   - component: {fileID: 8551816893850178452}
   - component: {fileID: 3305929303078640710}
+  - component: {fileID: 6719923925562051272}
   m_Layer: 0
   m_Name: Enemigo2
   m_TagString: Enemigo
@@ -104,7 +105,9 @@ MonoBehaviour:
   spritesEnemigo:
   - {fileID: 3484831637148066783, guid: b8240938a755f784f89219d63e1a4011, type: 3}
   - {fileID: 5447955171986440186, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  spriteBala: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+  spriteBalaAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+    type: 3}
+  spriteBalaRoja: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
     type: 3}
 --- !u!58 &3305929303078640710
 CircleCollider2D:
@@ -122,3 +125,16 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0.1}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &6719923925562051272
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4085591358061915584}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ddca1aedc63b7c4b966ed00f4242f78, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TheKey: TriangleEnemy
