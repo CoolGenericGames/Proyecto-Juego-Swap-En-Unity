@@ -86,7 +86,6 @@ public class Rutina : MonoBehaviour
     private IEnumerator RutinaDeEnemigos()
     {
         yield return new WaitForSeconds(4);
-        ObjectsRepository.UseRepository("CircleEnemy", new Vector2(-xSize, 5), Quaternion.identity);
         enemigoInstanciado = ObjectsRepository.UseRepository("TriangleEnemy", new Vector2(-xSize, 5), Quaternion.identity);
         enemigoInstanciado.GetComponent<Enemigo2>().ColorEnemigo(AZUL);
         enemigoInstanciado = ObjectsRepository.UseRepository("TriangleEnemy", new Vector2(xSize, 7), Quaternion.identity);
