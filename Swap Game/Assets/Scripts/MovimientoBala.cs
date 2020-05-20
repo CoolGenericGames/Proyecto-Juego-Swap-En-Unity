@@ -7,9 +7,12 @@ public class MovimientoBala : MonoBehaviour
 
     #region Variables
     public float velBala = 30f;
+    public int Puntaje = 1;
     #endregion
 
     #region Métodos de Unity
+
+
 
     // Update is called once per frame
     void Update()
@@ -23,12 +26,15 @@ public class MovimientoBala : MonoBehaviour
         {
             ObjectsRepository.BackToRepository(collision.gameObject);
             ObjectsRepository.BackToRepository(gameObject);
+            GameController.Score += Puntaje;
+            
         }
 		if (collision.CompareTag("EnemigoC"))
         {
             collision.GetComponent<EnemigoC>().CrearBala();
             ObjectsRepository.BackToRepository(collision.gameObject);
             ObjectsRepository.BackToRepository(gameObject);
+            GameController.Score += Puntaje;
         }
     }
     #endregion
