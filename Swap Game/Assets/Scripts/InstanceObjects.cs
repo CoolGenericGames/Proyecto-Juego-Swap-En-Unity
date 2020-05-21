@@ -11,6 +11,7 @@ public class InstanceObjects : ObjectsRepository
     public int TriangleEnemyQuantity;
     public int SquareEnemyQuantity;
     public int CircleEnemyQuantity;
+    public int ExplosionQuantity;
     #endregion
 
     #region GameObjects
@@ -20,6 +21,7 @@ public class InstanceObjects : ObjectsRepository
     public GameObject TriangleEnemy;
     public GameObject SquareEnemy;
     public GameObject CircleEnemy;
+    public GameObject Explosion;
     #endregion
 
     #region métodos de Unity
@@ -32,6 +34,7 @@ public class InstanceObjects : ObjectsRepository
         CreateInstance(TriangleEnemy.GetComponent<DirectoryKey>().TheKey, TriangleEnemy, TriangleEnemyQuantity);
         CreateInstance(SquareEnemy.GetComponent<DirectoryKey>().TheKey, SquareEnemy, SquareEnemyQuantity);
         CreateInstance(CircleEnemy.GetComponent<DirectoryKey>().TheKey, CircleEnemy, CircleEnemyQuantity);
+        CreateInstance(Explosion.GetComponent<DirectoryKey>().TheKey, Explosion, ExplosionQuantity);
     }
     #endregion
 }

@@ -144,7 +144,7 @@ public class MovimientoNave : MonoBehaviour
 
     void DispararBala()
     {        
-        nuevabala = ObjectsRepository.UseRepository("Bullet", new Vector2(transform.position.x, transform.position.y + naveySize), Quaternion.identity) as GameObject;
+        nuevabala = ObjectsRepository.UseRepository("Bullet", new Vector2(transform.position.x, transform.position.y + naveySize + 0.2f), Quaternion.identity) as GameObject;
         if (!esRoja) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
         else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
     }
@@ -154,16 +154,18 @@ public class MovimientoNave : MonoBehaviour
         if(vidas<=0)vidas = 0;
         if (collision.CompareTag("BalaEnemigo"))
         {
-           if (collision.gameObject.GetComponent<BalaEnemigo>() != null)
+            if (collision.gameObject.GetComponent<BalaEnemigo>() != null)
             {
                 if (collision.gameObject.GetComponent<BalaEnemigo>().esRoja && !esRoja)
                 {
+                    ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
                     ObjectsRepository.BackToRepository(collision.gameObject);             
                     naveCollider.enabled = false;
                     vidas--;
                 }
                 else if (!collision.gameObject.GetComponent<BalaEnemigo>().esRoja && esRoja)
                 {
+                    ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
                     ObjectsRepository.BackToRepository(collision.gameObject);
                     naveCollider.enabled = false;
                     vidas--;
@@ -172,12 +174,14 @@ public class MovimientoNave : MonoBehaviour
             else {
                 if (collision.gameObject.GetComponent<BalaEnemigoEspecial>().esRoja && !esRoja)
                 {
+                    ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
                     ObjectsRepository.BackToRepository(collision.gameObject);              
                     naveCollider.enabled = false;
                     vidas--;
                 }
                 else if (!collision.gameObject.GetComponent<BalaEnemigoEspecial>().esRoja && esRoja)
                 {
+                    ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
                     ObjectsRepository.BackToRepository(collision.gameObject);
                     naveCollider.enabled = false;
                     vidas--;
@@ -187,6 +191,8 @@ public class MovimientoNave : MonoBehaviour
 
         if (collision.CompareTag("Enemigo"))
         {
+            ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
+            ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
             ObjectsRepository.BackToRepository(collision.gameObject);
             naveCollider.enabled = false;
             vidas--;
@@ -194,6 +200,8 @@ public class MovimientoNave : MonoBehaviour
 
 		if (collision.CompareTag("EnemigoC"))
         {
+            ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
+            ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
             ObjectsRepository.BackToRepository(collision.gameObject);
             naveCollider.enabled = false;
             vidas--;

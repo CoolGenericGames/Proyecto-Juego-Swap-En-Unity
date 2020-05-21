@@ -9,9 +9,14 @@ public class MovimientoBala : MonoBehaviour
     public float velBala = 30f;
     #endregion
 
-    #region Métodos de Unity
+    CameraShake shakeReference;
 
-    // Update is called once per frame
+    #region Métodos de Unity
+    void Start()
+    {
+        shakeReference = GameObject.Find("Camera Origin").transform.Find("Main Camera").GetComponent<CameraShake>();
+    }
+
     void Update()
     {
         transform.position += new Vector3(0, velBala * Time.deltaTime, 0);
@@ -21,11 +26,13 @@ public class MovimientoBala : MonoBehaviour
     {
         if (collision.CompareTag("Enemigo"))
         {
+            ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
             ObjectsRepository.BackToRepository(collision.gameObject);
             ObjectsRepository.BackToRepository(gameObject);
         }
 		if (collision.CompareTag("EnemigoC"))
         {
+            ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
             collision.GetComponent<EnemigoC>().CrearBala();
             ObjectsRepository.BackToRepository(collision.gameObject);
             ObjectsRepository.BackToRepository(gameObject);
