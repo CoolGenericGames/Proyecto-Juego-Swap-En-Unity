@@ -7,6 +7,7 @@ public class MovimientoBala : MonoBehaviour
 
     #region Variables
     public float velBala = 30f;
+    public int Puntaje = 1;
     #endregion
 
     CameraShake shakeReference;
@@ -29,6 +30,7 @@ public class MovimientoBala : MonoBehaviour
             ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
             ObjectsRepository.BackToRepository(collision.gameObject);
             ObjectsRepository.BackToRepository(gameObject);
+            GameController.Score += Puntaje;
         }
 		if (collision.CompareTag("EnemigoC"))
         {
@@ -36,6 +38,7 @@ public class MovimientoBala : MonoBehaviour
             collision.GetComponent<EnemigoC>().CrearBala();
             ObjectsRepository.BackToRepository(collision.gameObject);
             ObjectsRepository.BackToRepository(gameObject);
+            GameController.Score += Puntaje;
         }
     }
     #endregion
