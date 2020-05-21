@@ -27,14 +27,14 @@ public class MovimientoBala : MonoBehaviour
     {
         if (collision.CompareTag("Enemigo"))
         {
-            ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
+            ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
             ObjectsRepository.BackToRepository(collision.gameObject);
             ObjectsRepository.BackToRepository(gameObject);
             GameController.Score += Puntaje;
         }
 		if (collision.CompareTag("EnemigoC"))
         {
-            ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
+            ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
             collision.GetComponent<EnemigoC>().CrearBala();
             ObjectsRepository.BackToRepository(collision.gameObject);
             ObjectsRepository.BackToRepository(gameObject);

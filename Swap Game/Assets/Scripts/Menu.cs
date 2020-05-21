@@ -13,8 +13,12 @@ public class Menu : MonoBehaviour
     #endregion
     #region Componentes
         public Image Imagen;
-
+        Color red;
+        Color lightRed;
+        Color blue;
+        Color lightBlue;
         public Text titulo;
+
     #endregion
 
 

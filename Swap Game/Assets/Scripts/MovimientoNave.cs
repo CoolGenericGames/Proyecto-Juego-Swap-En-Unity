@@ -17,8 +17,10 @@ public class MovimientoNave : MonoBehaviour
     private float naveySize;
     private int vidas;
     private float invencible;
+    private float timer;
 
     private bool esRoja;
+    private bool noInvencible;
 
     #endregion
 
@@ -57,6 +59,8 @@ public class MovimientoNave : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        timer = 0;
+        noInvencible = true;
         colorParaAlfa = gameObject.GetComponent<SpriteRenderer>().color;
         esRoja = true;
         vidas = 3;
@@ -80,7 +84,7 @@ public class MovimientoNave : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        timer += Time.deltaTime;
         if (vidas <= 0)
         {
             vidas = 0;
@@ -98,9 +102,10 @@ public class MovimientoNave : MonoBehaviour
         else if (Input.GetKey(KeyCode.A) && (transform.position.x - naveySize > -xSize)) transform.position -= moverX * velocidad * Time.deltaTime;
 
 
-        if (Input.GetKeyDown(KeyCode.P))
+        if (Input.GetKeyDown(KeyCode.P)&&(timer>0.1f))
         {
             DispararBala();
+            timer = 0;
         }
 
         if (Input.GetKeyDown(KeyCode.Space)) {
@@ -138,73 +143,85 @@ public class MovimientoNave : MonoBehaviour
                 gameObject.GetComponent<SpriteRenderer>().color = colorParaAlfa;
                 naveCollider.enabled = true;
                 invencible = 0f;
+                noInvencible = true;
             }
         }
     }
 
     void DispararBala()
     {        
-        nuevabala = ObjectsRepository.UseRepository("Bullet", new Vector2(transform.position.x, transform.position.y + naveySize + 0.2f), Quaternion.identity) as GameObject;
+        nuevabala = ObjectsRepository.UseRepository("Bullet", new Vector2(transform.position.x, transform.position.y + naveySize + 0.3f), Quaternion.identity) as GameObject;
         if (!esRoja) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
         else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
+        GetComponent<AudioSource>().Play();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if(vidas<=0)vidas = 0;
-        if (collision.CompareTag("BalaEnemigo"))
+        if (noInvencible)
         {
-            if (collision.gameObject.GetComponent<BalaEnemigo>() != null)
+            if (vidas <= 0) vidas = 0;
+            if (collision.CompareTag("BalaEnemigo"))
             {
-                if (collision.gameObject.GetComponent<BalaEnemigo>().esRoja && !esRoja)
+                if (collision.gameObject.GetComponent<BalaEnemigo>() != null)
                 {
-                    ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
-                    ObjectsRepository.BackToRepository(collision.gameObject);             
-                    naveCollider.enabled = false;
-                    vidas--;
+                    if (collision.gameObject.GetComponent<BalaEnemigo>().esRoja && !esRoja)
+                    {
+                        ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
+                        ObjectsRepository.BackToRepository(collision.gameObject);
+                        noInvencible = false;
+                        naveCollider.enabled = false;
+                        vidas--;
+                    }
+                    else if (!collision.gameObject.GetComponent<BalaEnemigo>().esRoja && esRoja)
+                    {
+                        ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
+                        ObjectsRepository.BackToRepository(collision.gameObject);
+                        noInvencible = false;
+                        naveCollider.enabled = false;
+                        vidas--;
+                    }
                 }
-                else if (!collision.gameObject.GetComponent<BalaEnemigo>().esRoja && esRoja)
+                else
                 {
-                    ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
-                    ObjectsRepository.BackToRepository(collision.gameObject);
-                    naveCollider.enabled = false;
-                    vidas--;
+                    if (collision.gameObject.GetComponent<BalaEnemigoEspecial>().esRoja && !esRoja)
+                    {
+                        ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
+                        ObjectsRepository.BackToRepository(collision.gameObject);
+                        noInvencible = false;
+                        naveCollider.enabled = false;
+                        vidas--;
+                    }
+                    else if (!collision.gameObject.GetComponent<BalaEnemigoEspecial>().esRoja && esRoja)
+                    {
+                        ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
+                        ObjectsRepository.BackToRepository(collision.gameObject);
+                        noInvencible = false;
+                        naveCollider.enabled = false;
+                        vidas--;
+                    }
                 }
             }
-            else {
-                if (collision.gameObject.GetComponent<BalaEnemigoEspecial>().esRoja && !esRoja)
-                {
-                    ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
-                    ObjectsRepository.BackToRepository(collision.gameObject);              
-                    naveCollider.enabled = false;
-                    vidas--;
-                }
-                else if (!collision.gameObject.GetComponent<BalaEnemigoEspecial>().esRoja && esRoja)
-                {
-                    ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
-                    ObjectsRepository.BackToRepository(collision.gameObject);
-                    naveCollider.enabled = false;
-                    vidas--;
-                }
+
+            if (collision.CompareTag("Enemigo"))
+            {
+                ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
+                ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
+                ObjectsRepository.BackToRepository(collision.gameObject);
+                noInvencible = false;
+                naveCollider.enabled = false;
+                vidas--;
             }
-        }
 
-        if (collision.CompareTag("Enemigo"))
-        {
-            ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
-            ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
-            ObjectsRepository.BackToRepository(collision.gameObject);
-            naveCollider.enabled = false;
-            vidas--;
-        }
-
-		if (collision.CompareTag("EnemigoC"))
-        {
-            ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
-            ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
-            ObjectsRepository.BackToRepository(collision.gameObject);
-            naveCollider.enabled = false;
-            vidas--;
+            if (collision.CompareTag("EnemigoC"))
+            {
+                ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
+                ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
+                ObjectsRepository.BackToRepository(collision.gameObject);
+                noInvencible = false;
+                naveCollider.enabled = false;
+                vidas--;
+            }
         }
     }
 
