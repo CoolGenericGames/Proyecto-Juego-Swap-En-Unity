@@ -1289,9 +1289,9 @@ MonoBehaviour:
   BulletQuantity: 20
   BulletEnemyQuantity: 60
   SpecialBulletEnemyQuantity: 50
-  TriangleEnemyQuantity: 10
-  SquareEnemyQuantity: 10
-  CircleEnemyQuantity: 20
+  TriangleEnemyQuantity: 50
+  SquareEnemyQuantity: 50
+  CircleEnemyQuantity: 50
   ExplosionQuantity: 20
   Bullet: {fileID: 6713995050070929635, guid: 4bdffd62ba04eea40954aea7024e1706, type: 3}
   BulletEnemy: {fileID: 3209530571280822052, guid: 71320050cdd507e4d9cba4f30b7f6c32,
