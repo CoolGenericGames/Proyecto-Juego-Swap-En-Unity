@@ -181,6 +181,11 @@ public class MovimientoNave : MonoBehaviour
                         naveCollider.enabled = false;
                         vidas--;
                     }
+                    else
+                    {
+                        GameController.Score++;
+                        ObjectsRepository.BackToRepository(collision.gameObject);
+                    }
                 }
                 else
                 {
@@ -200,10 +205,15 @@ public class MovimientoNave : MonoBehaviour
                         naveCollider.enabled = false;
                         vidas--;
                     }
+                    else
+                    {
+                        GameController.Score++;
+                        ObjectsRepository.BackToRepository(collision.gameObject);
+                    }
                 }
             }
 
-            if (collision.CompareTag("Enemigo"))
+            if (collision.CompareTag("Enemigo") || collision.CompareTag("EnemigoC") || collision.CompareTag("EnemigoC2"))
             {
                 ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
                 ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
@@ -213,15 +223,6 @@ public class MovimientoNave : MonoBehaviour
                 vidas--;
             }
 
-            if (collision.CompareTag("EnemigoC"))
-            {
-                ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
-                ObjectsRepository.UseRepository("Explosion", transform.position, Quaternion.identity);
-                ObjectsRepository.BackToRepository(collision.gameObject);
-                noInvencible = false;
-                naveCollider.enabled = false;
-                vidas--;
-            }
         }
     }
 

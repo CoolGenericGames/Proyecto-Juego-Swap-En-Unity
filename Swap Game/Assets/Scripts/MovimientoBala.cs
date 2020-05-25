@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.CodeDom;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +8,9 @@ public class MovimientoBala : MonoBehaviour
 
     #region Variables
     public float velBala = 30f;
-    public int Puntaje = 1;
+    public const int puntajeCuadrado = 10;
+    public const int puntajeTriangulo = 15;
+    public const int puntajeCirculo = 5;
     #endregion
 
     CameraShake shakeReference;
@@ -25,21 +28,30 @@ public class MovimientoBala : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+               
         if (collision.CompareTag("Enemigo"))
         {
             ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
-            ObjectsRepository.BackToRepository(collision.gameObject);
+            GameController.Score += puntajeCuadrado;
             ObjectsRepository.BackToRepository(gameObject);
-            GameController.Score += Puntaje;
+            ObjectsRepository.BackToRepository(collision.gameObject);
         }
-		if (collision.CompareTag("EnemigoC"))
+        else if (collision.CompareTag("EnemigoC2"))
+        {
+            ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
+            GameController.Score += puntajeTriangulo;
+            ObjectsRepository.BackToRepository(gameObject);
+            ObjectsRepository.BackToRepository(collision.gameObject);
+        }
+		else if (collision.CompareTag("EnemigoC"))
         {
             ObjectsRepository.UseRepository("Explosion", collision.transform.position, Quaternion.identity);
             collision.GetComponent<EnemigoC>().CrearBala();
-            ObjectsRepository.BackToRepository(collision.gameObject);
+            GameController.Score += puntajeCirculo;
             ObjectsRepository.BackToRepository(gameObject);
-            GameController.Score += Puntaje;
+            ObjectsRepository.BackToRepository(collision.gameObject);
         }
+
     }
     #endregion
 }
