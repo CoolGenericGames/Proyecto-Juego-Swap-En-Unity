@@ -70,6 +70,13 @@ public class ControladorRutinas : MonoBehaviour
 
     #endregion
 
+    #region IEnumerator
+    /// <summary>
+    /// Variable que guarda corrutina.
+    /// </summary>
+    private IEnumerator corrutina;
+    #endregion
+
     #region MÉTODOS UNITY
 
     // Suscribimos los métodos a los eventos pertinentes.
@@ -99,7 +106,8 @@ public class ControladorRutinas : MonoBehaviour
         camTamX = camTamY * camara.aspect;
 
         // -----------------------------------------------------------------------------
-        StartCoroutine(RutinaEnemigos());
+        corrutina = RutinaEnemigos();
+        StartCoroutine(corrutina);
     }
 
     #endregion
@@ -125,10 +133,9 @@ public class ControladorRutinas : MonoBehaviour
         if (_vidas < 0)
         {
             // Se detiene la rutina de los enemigos.
-            StopCoroutine(RutinaEnemigos());
+            StopCoroutine(corrutina);
 
-            // Se limpia el repositorio.
-            ObjectsRepository.RepositoryObj.Clear();
+            // Se limpia el repositorio.           
         }
     }
 

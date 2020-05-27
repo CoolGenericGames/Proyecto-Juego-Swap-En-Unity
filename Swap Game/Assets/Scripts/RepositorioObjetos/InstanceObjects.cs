@@ -28,6 +28,7 @@ public class InstanceObjects : ObjectsRepository
     // Start is called before the first frame update
     void Start()
     {
+        RepositoryObj.Clear();
         CreateInstance(Bullet.GetComponent<DirectoryKey>().TheKey, Bullet, BulletQuantity);
         CreateInstance(BulletEnemy.GetComponent<DirectoryKey>().TheKey, BulletEnemy, BulletEnemyQuantity);
         CreateInstance(SpecialBulletEnemy.GetComponent<DirectoryKey>().TheKey, SpecialBulletEnemy, SpecialBulletEnemyQuantity);

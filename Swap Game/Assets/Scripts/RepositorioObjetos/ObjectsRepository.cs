@@ -43,10 +43,14 @@ public class ObjectsRepository : MonoBehaviour
 
     public static void BackToRepository(GameObject GameObjectToReturn)
     {
-        GameObjectToReturn.transform.SetParent(null);
-        GameObjectToReturn.transform.rotation = Quaternion.identity;
-        RepositoryObj[GameObjectToReturn.GetComponent<DirectoryKey>().TheKey].Enqueue(GameObjectToReturn);
-        GameObjectToReturn.SetActive(false);
+        string keyReference = GameObjectToReturn.GetComponent<DirectoryKey>().TheKey;
+        if (RepositoryObj.ContainsKey(keyReference))
+        {
+            GameObjectToReturn.transform.SetParent(null);
+            GameObjectToReturn.transform.rotation = Quaternion.identity;
+            RepositoryObj[GameObjectToReturn.GetComponent<DirectoryKey>().TheKey].Enqueue(GameObjectToReturn);
+            GameObjectToReturn.SetActive(false);
+        }
     }
     #endregion
 }
