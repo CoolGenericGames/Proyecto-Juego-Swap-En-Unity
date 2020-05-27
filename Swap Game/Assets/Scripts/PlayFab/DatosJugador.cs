@@ -5,12 +5,27 @@ using UnityEngine;
 
 public class DatosJugador : MonoBehaviour
 {
+    #region ACCIONES Y EVENTOS
+
+    /// <summary>
+    /// Evento que es invocado cuando se actualizan la puntuación del jugador.
+    /// </summary>
+    public static Action<int> evntPuntuacion;
+
+    #endregion
+
     #region SINGLETON
 
     /// <summary>
     /// Single instance containing the user's important PlayFab data.
     /// </summary>
     private static DatosJugador _instancia;
+
+    #endregion
+
+    #region VARIABLES
+
+    private int puntuacion;
 
     #endregion
 
@@ -31,6 +46,21 @@ public class DatosJugador : MonoBehaviour
     /// </summary>
     public string PlayFabID { get; set; }
 
+    /// <summary>
+    /// Puntuacion del jugador.
+    /// </summary>
+    public int Puntuacion 
+    {
+        get => puntuacion;
+
+        set
+        {
+            puntuacion = value;
+
+            evntPuntuacion?.Invoke(puntuacion);
+        }
+    }
+
     #endregion
     
     #region MÉTODOS DE UNITY
@@ -43,6 +73,8 @@ public class DatosJugador : MonoBehaviour
         // Prevenimos que el objeto sea destruido al cargar escenas.
         DontDestroyOnLoad(this.gameObject);
     }
+
+    private void Start() => puntuacion = 0;
 
     #endregion
 }

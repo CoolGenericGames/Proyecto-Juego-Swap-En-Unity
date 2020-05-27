@@ -1,4 +1,4 @@
-// GENERATED AUTOMATICALLY FROM 'Assets/Input Actions/InputActions.inputactions'
+// GENERATED AUTOMATICALLY FROM 'Assets/Input Actions/InputActionsGameplay.inputactions'
 
 using System;
 using System.Collections;
@@ -6,16 +6,16 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public class @InputActions : IInputActionCollection, IDisposable
+public class @InputActionsGameplay : IInputActionCollection, IDisposable
 {
     public InputActionAsset asset { get; }
-    public @InputActions()
+    public @InputActionsGameplay()
     {
         asset = InputActionAsset.FromJson(@"{
-    ""name"": ""InputActions"",
+    ""name"": ""InputActionsGameplay"",
     ""maps"": [
         {
-            ""name"": ""Nave (WASD)"",
+            ""name"": ""Teclado"",
             ""id"": ""dfbb7882-d57e-4767-9d1d-4219dc6dcd0c"",
             ""actions"": [
                 {
@@ -126,11 +126,11 @@ public class @InputActions : IInputActionCollection, IDisposable
     ],
     ""controlSchemes"": []
 }");
-        // Nave (WASD)
-        m_NaveWASD = asset.FindActionMap("Nave (WASD)", throwIfNotFound: true);
-        m_NaveWASD_Mover = m_NaveWASD.FindAction("Mover", throwIfNotFound: true);
-        m_NaveWASD_Disparar = m_NaveWASD.FindAction("Disparar", throwIfNotFound: true);
-        m_NaveWASD_CambiarColor = m_NaveWASD.FindAction("CambiarColor", throwIfNotFound: true);
+        // Teclado
+        m_Teclado = asset.FindActionMap("Teclado", throwIfNotFound: true);
+        m_Teclado_Mover = m_Teclado.FindAction("Mover", throwIfNotFound: true);
+        m_Teclado_Disparar = m_Teclado.FindAction("Disparar", throwIfNotFound: true);
+        m_Teclado_CambiarColor = m_Teclado.FindAction("CambiarColor", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -177,39 +177,39 @@ public class @InputActions : IInputActionCollection, IDisposable
         asset.Disable();
     }
 
-    // Nave (WASD)
-    private readonly InputActionMap m_NaveWASD;
-    private INaveWASDActions m_NaveWASDActionsCallbackInterface;
-    private readonly InputAction m_NaveWASD_Mover;
-    private readonly InputAction m_NaveWASD_Disparar;
-    private readonly InputAction m_NaveWASD_CambiarColor;
-    public struct NaveWASDActions
+    // Teclado
+    private readonly InputActionMap m_Teclado;
+    private ITecladoActions m_TecladoActionsCallbackInterface;
+    private readonly InputAction m_Teclado_Mover;
+    private readonly InputAction m_Teclado_Disparar;
+    private readonly InputAction m_Teclado_CambiarColor;
+    public struct TecladoActions
     {
-        private @InputActions m_Wrapper;
-        public NaveWASDActions(@InputActions wrapper) { m_Wrapper = wrapper; }
-        public InputAction @Mover => m_Wrapper.m_NaveWASD_Mover;
-        public InputAction @Disparar => m_Wrapper.m_NaveWASD_Disparar;
-        public InputAction @CambiarColor => m_Wrapper.m_NaveWASD_CambiarColor;
-        public InputActionMap Get() { return m_Wrapper.m_NaveWASD; }
+        private @InputActionsGameplay m_Wrapper;
+        public TecladoActions(@InputActionsGameplay wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Mover => m_Wrapper.m_Teclado_Mover;
+        public InputAction @Disparar => m_Wrapper.m_Teclado_Disparar;
+        public InputAction @CambiarColor => m_Wrapper.m_Teclado_CambiarColor;
+        public InputActionMap Get() { return m_Wrapper.m_Teclado; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
         public bool enabled => Get().enabled;
-        public static implicit operator InputActionMap(NaveWASDActions set) { return set.Get(); }
-        public void SetCallbacks(INaveWASDActions instance)
+        public static implicit operator InputActionMap(TecladoActions set) { return set.Get(); }
+        public void SetCallbacks(ITecladoActions instance)
         {
-            if (m_Wrapper.m_NaveWASDActionsCallbackInterface != null)
+            if (m_Wrapper.m_TecladoActionsCallbackInterface != null)
             {
-                @Mover.started -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnMover;
-                @Mover.performed -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnMover;
-                @Mover.canceled -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnMover;
-                @Disparar.started -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnDisparar;
-                @Disparar.performed -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnDisparar;
-                @Disparar.canceled -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnDisparar;
-                @CambiarColor.started -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnCambiarColor;
-                @CambiarColor.performed -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnCambiarColor;
-                @CambiarColor.canceled -= m_Wrapper.m_NaveWASDActionsCallbackInterface.OnCambiarColor;
+                @Mover.started -= m_Wrapper.m_TecladoActionsCallbackInterface.OnMover;
+                @Mover.performed -= m_Wrapper.m_TecladoActionsCallbackInterface.OnMover;
+                @Mover.canceled -= m_Wrapper.m_TecladoActionsCallbackInterface.OnMover;
+                @Disparar.started -= m_Wrapper.m_TecladoActionsCallbackInterface.OnDisparar;
+                @Disparar.performed -= m_Wrapper.m_TecladoActionsCallbackInterface.OnDisparar;
+                @Disparar.canceled -= m_Wrapper.m_TecladoActionsCallbackInterface.OnDisparar;
+                @CambiarColor.started -= m_Wrapper.m_TecladoActionsCallbackInterface.OnCambiarColor;
+                @CambiarColor.performed -= m_Wrapper.m_TecladoActionsCallbackInterface.OnCambiarColor;
+                @CambiarColor.canceled -= m_Wrapper.m_TecladoActionsCallbackInterface.OnCambiarColor;
             }
-            m_Wrapper.m_NaveWASDActionsCallbackInterface = instance;
+            m_Wrapper.m_TecladoActionsCallbackInterface = instance;
             if (instance != null)
             {
                 @Mover.started += instance.OnMover;
@@ -224,8 +224,8 @@ public class @InputActions : IInputActionCollection, IDisposable
             }
         }
     }
-    public NaveWASDActions @NaveWASD => new NaveWASDActions(this);
-    public interface INaveWASDActions
+    public TecladoActions @Teclado => new TecladoActions(this);
+    public interface ITecladoActions
     {
         void OnMover(InputAction.CallbackContext context);
         void OnDisparar(InputAction.CallbackContext context);

@@ -58,8 +58,8 @@ public class EnemigoBase : MonoBehaviour
 
 
     // ANTIGUO **********************************************************************
+    protected float tiempoRecargaDisparo;
     protected float timer;
-    protected float cooldown;
     protected bool esRojo;
     // ******************************************************************************
 

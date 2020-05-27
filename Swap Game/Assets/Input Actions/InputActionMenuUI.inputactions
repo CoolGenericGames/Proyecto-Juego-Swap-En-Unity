@@ -1,0 +1,52 @@
+{
+    "name": "InputActionMenuUI",
+    "maps": [
+        {
+            "name": "Teclado",
+            "id": "ae247221-9253-4ceb-9485-989cd89a67df",
+            "actions": [
+                {
+                    "name": "Salir",
+                    "type": "Button",
+                    "id": "4a79d611-6346-4630-861d-267b6948eb56",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Jugar",
+                    "type": "Button",
+                    "id": "0808f566-4fc6-4fe8-999a-acf9e1c1b916",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "67a44ba1-9b43-4c8f-aa3c-1ed4ca1f1179",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Salir",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "091b6df9-b6ea-4b6b-83cd-a3dfcd55a73c",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Jugar",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

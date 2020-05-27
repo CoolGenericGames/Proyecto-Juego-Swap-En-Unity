@@ -97,15 +97,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e64f809615e401d42990ae6ad38aef6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velEnemigoC: -5
-  BalaEnemigo: {fileID: 3655088114478373531, guid: 21b8166cc2365044b805a9d94b96fd45,
+  velocidadX: 0
+  velocidadY: 0
+  direccion: 0
+  priyectil: {fileID: 3209530571280822052, guid: 71320050cdd507e4d9cba4f30b7f6c32,
     type: 3}
   spritesEnemigo:
   - {fileID: 7448834561180846053, guid: b8240938a755f784f89219d63e1a4011, type: 3}
   - {fileID: -981496790141133154, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  spriteBalaAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+  spriteProyectilAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
     type: 3}
-  spriteBalaRoja: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
+  spriteProyectilRojo: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
     type: 3}
 --- !u!58 &2864647041987342929
 CircleCollider2D:

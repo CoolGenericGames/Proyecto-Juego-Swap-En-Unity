@@ -13,7 +13,7 @@ public enum COLOR_NAVE
     ROJO
 }
 
-public class ControlladorNave : MonoBehaviour
+public class ControladorNave : MonoBehaviour
 {
     #region ACCIONES Y EVENTOS
 
@@ -154,6 +154,10 @@ public class ControlladorNave : MonoBehaviour
     /// Velocidad de movimiento de la nave.
     /// </summary>
     private float velocidad;
+    /// <summary>
+    /// Permite saber si el jugador puede realizar alguna acción.
+    /// </summary>
+    private bool estaActivo;
 
 
     // INVENCIBILIDAD ---------------------------------------------------------------
@@ -225,6 +229,18 @@ public class ControlladorNave : MonoBehaviour
 
     #region MÉTODOS DE UNITY
 
+    // Se suscriben a los eventos.
+    private void OnEnable()
+    {
+        ControladorRutinas.evntVictoria += Desactivar;
+    }
+
+    // Se desuscriben a los eventos.
+    private void OnDisable()
+    {
+        ControladorRutinas.evntVictoria -= Desactivar;
+    }
+
     // Se inicializan los componentes.
     private void Awake()
     {
@@ -264,13 +280,13 @@ public class ControlladorNave : MonoBehaviour
 
         // MOVIMIENTO ------------------------------------------------------------------
         velocidad = VELOCIDAD_INICIAL;
+        estaActivo = true;
 
         // INVENCIBILIDAD ---------------------------------------------------------------
         esInvencible = false;
 
         // DISPARAR --------------------------------------------------------------------
         puedeDisparar = true;
-
     }
 
     // Se actualiza la lógica del juego.
@@ -278,7 +294,6 @@ public class ControlladorNave : MonoBehaviour
     {
         Mover();
     }
-
 
     #endregion
 
@@ -306,16 +321,8 @@ public class ControlladorNave : MonoBehaviour
                 {
                     BalaEnemigo balaEnemigo = _collider2D.gameObject.GetComponent<BalaEnemigo>();
 
-                    // SI el proyectil enemigo es rojo y la nave es azul.
-                    if (balaEnemigo.esRoja && color == COLOR_NAVE.AZUL)
-                    {
-                        Explotar(transform.position, _collider2D.gameObject);
-                        StartCoroutine(RutinaInvencible());
-
-                        vidas--;
-                    }
-                    // Si el proyectil enemigo es azul y la nave es roja.
-                    else if (!balaEnemigo.esRoja && color == COLOR_NAVE.ROJO)
+                    // Si el color de la nave es igual al color del proyectil.
+                    if (balaEnemigo.color != this.color)
                     {
                         Explotar(transform.position, _collider2D.gameObject);
                         StartCoroutine(RutinaInvencible());
@@ -325,7 +332,7 @@ public class ControlladorNave : MonoBehaviour
                     // Si el proyectil corresponde al color de la nave, sube la puntuación y se elimina el proyectil.
                     else
                     {
-                        GameController.Score++;
+                        if (DatosJugador.Get != null) DatosJugador.Get.Puntuacion++;
                         ObjectsRepository.BackToRepository(_collider2D.gameObject);
                     }
                 }
@@ -334,16 +341,9 @@ public class ControlladorNave : MonoBehaviour
                 {
                     BalaEnemigoEspecial balaEnemigoEspecial = _collider2D.gameObject.GetComponent<BalaEnemigoEspecial>();
 
-                    // Si el proyectil es rojo y la nave es azul.
-                    if (balaEnemigoEspecial.esRoja && color == COLOR_NAVE.AZUL)
-                    {
-                        Explotar(transform.position, _collider2D.gameObject);
-                        StartCoroutine(RutinaInvencible());
 
-                        vidas--;
-                    }
-                    // Si el proyectil es azul y la nave es roja.
-                    else if (!balaEnemigoEspecial.esRoja && color == COLOR_NAVE.ROJO)
+                    // Si el color de la nave es igual al color del proyectil.
+                    if (balaEnemigoEspecial.color != this.color)
                     {
                         Explotar(transform.position, _collider2D.gameObject);
                         StartCoroutine(RutinaInvencible());
@@ -353,7 +353,7 @@ public class ControlladorNave : MonoBehaviour
                     // Si el color del proyectil corresponde al de la nave, sube la puntuación y se elimina el proyectil.
                     else
                     {
-                        GameController.Score++;
+                        if (DatosJugador.Get != null) DatosJugador.Get.Puntuacion++;
                         ObjectsRepository.BackToRepository(_collider2D.gameObject);
                     }
                 }
@@ -361,7 +361,7 @@ public class ControlladorNave : MonoBehaviour
 
             // Revisar las vidas.
             evntVida?.Invoke(vidas);
-            if (vidas < 0) Destroy(gameObject);
+            if (vidas < 0) gameObject.SetActive(false);
         }
     }
 
@@ -374,24 +374,28 @@ public class ControlladorNave : MonoBehaviour
     /// </summary>
     private void Mover() 
     {
-        // Referencia a las posiciones X,Y de la nave.
-        float posicionY = transform.position.y;
-        float posicionX = transform.position.x;
+        // Si el jugador realizar alguna acción.
+        if (estaActivo)
+        {
+            // Referencia a las posiciones X,Y de la nave.
+            float posicionY = transform.position.y;
+            float posicionX = transform.position.x;
 
-        // MOVIMIENTO VERTICAL ---------------------------------------------------------
-        if (direccion.y == ARRIBA && (posicionY + naveTamY < camTamY))
-            transform.position += Vector3.up * velocidad * Time.deltaTime;
+            // MOVIMIENTO VERTICAL ---------------------------------------------------------
+            if (direccion.y == ARRIBA && (posicionY + naveTamY < camTamY))
+                transform.position += Vector3.up * velocidad * Time.deltaTime;
 
-        else if (direccion.y == ABAJO && (posicionY - naveTamY > -camTamY))
-            transform.position += Vector3.down * velocidad * Time.deltaTime;
+            else if (direccion.y == ABAJO && (posicionY - naveTamY > -camTamY))
+                transform.position += Vector3.down * velocidad * Time.deltaTime;
 
 
-        // MOVIMIENTO HORIZONTAL -------------------------------------------------------
-        if (direccion.x == DERECHA && (posicionX + naveTamX < camTamX))
-            transform.position += Vector3.right * velocidad * Time.deltaTime;
+            // MOVIMIENTO HORIZONTAL -------------------------------------------------------
+            if (direccion.x == DERECHA && (posicionX + naveTamX < camTamX))
+                transform.position += Vector3.right * velocidad * Time.deltaTime;
 
-        else if (direccion.x == IZQUIERDA && (posicionX - naveTamX > -camTamX))
-            transform.position += Vector3.left * velocidad * Time.deltaTime;
+            else if (direccion.x == IZQUIERDA && (posicionX - naveTamX > -camTamX))
+                transform.position += Vector3.left * velocidad * Time.deltaTime;
+        }
     }
 
     /// <summary>
@@ -410,6 +414,14 @@ public class ControlladorNave : MonoBehaviour
             // Se regresa el objeto que exploto al repositorio.
             ObjectsRepository.BackToRepository(_objeto.gameObject);
         }
+    }
+
+    /// <summary>
+    /// Permite desactivar la nave cuando se acabo el tiempo o las vidas.
+    /// </summary>
+    private void Desactivar()
+    {
+        estaActivo = false;
     }
 
     #endregion
@@ -502,30 +514,35 @@ public class ControlladorNave : MonoBehaviour
     /// <param name="_inputValue"> Información acerca de los valores de entrada. </param>
     private void OnMover(InputValue _inputValue)
     {
-        direccion = _inputValue.Get<Vector2>();
-        direccion.x = Mathf.RoundToInt(direccion.x);
-        direccion.y = Mathf.RoundToInt(direccion.y);
+        if (estaActivo)
+        {
+            direccion = _inputValue.Get<Vector2>();
+            direccion.x = Mathf.RoundToInt(direccion.x);
+            direccion.y = Mathf.RoundToInt(direccion.y);
+        }
     }
 
     /// <summary>
     /// Método que controla el disparo de la nave.
     /// </summary>
-    private void OnDisparar() { if (puedeDisparar) StartCoroutine(RutinaDisparar()); }
+    private void OnDisparar() { if (puedeDisparar && estaActivo) StartCoroutine(RutinaDisparar()); }
 
     /// <summary>
     /// Método que se encarga de cambiar el color de la nave.
     /// </summary>
     private void OnCambiarColor()
     {
-        if (color == COLOR_NAVE.ROJO)
+        if (estaActivo)
         {
-            GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_AZUL];
-            color = COLOR_NAVE.AZUL;
-        }
-        else
-        {
-            GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_ROJA];
-            color = COLOR_NAVE.ROJO;
+            if (color == COLOR_NAVE.ROJO)
+            {
+                GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_AZUL];
+                color = COLOR_NAVE.AZUL;
+            } else
+            {
+                GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_ROJA];
+                color = COLOR_NAVE.ROJO;
+            }
         }
     }
 

@@ -97,16 +97,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c0ed24d695fb38b4292cec12a8fc5749, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  velEnemigo: 13
+  velocidadX: 0
+  velocidadY: 0
   direccion: 0
-  BalaEnemigo: {fileID: 3209530571280822052, guid: 71320050cdd507e4d9cba4f30b7f6c32,
+  priyectil: {fileID: 3209530571280822052, guid: 71320050cdd507e4d9cba4f30b7f6c32,
     type: 3}
   spritesEnemigo:
   - {fileID: -1535204401066358648, guid: b8240938a755f784f89219d63e1a4011, type: 3}
   - {fileID: -2799623652728485633, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  spriteBalaRoja: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
+  spriteProyectilAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
     type: 3}
-  spriteBalaAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+  spriteProyectilRojo: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
     type: 3}
 --- !u!61 &4440179093389365522
 BoxCollider2D:

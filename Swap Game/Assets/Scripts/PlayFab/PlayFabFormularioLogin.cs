@@ -8,218 +8,201 @@ using UnityEngine.UI;
 
 public class PlayFabFormularioLogin : MonoBehaviour
 {
-    #region ACTIONS & EVENTS
+    #region ACCIONES Y EVENTOS
 
     /// <summary>
     /// Action that is invoked when all user data is obtained.
     /// </summary>
-    public static Action OnAuthenticated;
+    public static Action evntAutentificado;
     
     #endregion
 
-    #region PRIVATE FIELDS
+    #region VARIABLES
 
     /// <summary>
-    /// Represents the name of the user profile. It is the name that the user will use in the game.
+    /// Representa el nombre que usará el usuario en el juego.
     /// </summary>
     private string _username;
     
     /// <summary>
-    /// Represents the user's email address. Required to login.
+    /// Correo electronico del usuario. Se requiere para iniciar sesión.
     /// </summary>
     private string _userEmail;
     
     /// <summary>
-    /// Represents the password of the account that the user will use to log in.
+    /// Contraseña que usa el usuario para iniciar sesión.
     /// </summary>
     private string _userPassword;
 
     /// <summary>
-    /// It lets you know if the user is in the login form or not.
+    /// Permite saber si el usuario esta o no, en el formulario de inicio de seción.
     /// </summary>
-    private bool _isOnLoginForm;
+    private bool _estaIniciandoSesion;
 
     #endregion
     
-    #region PUBLIC UI COMPONENTS
+    #region COMPONENTES PUBLICOS DEL UI
 
-    [Header("TextMeshPro Texts")] // --------------------------------------------------
-    
+    [Header("TEXTOS DE TextMeshPro")] // ----------------------------------------------
     /// <summary>
-    /// Reference to the title of the connect form.
+    /// Referencia al campo de texto donde se mostrará el titulo.
     /// </summary>
-    public TextMeshProUGUI TitleText;
-    
+    public TextMeshProUGUI textoTitulo;
     /// <summary>
-    /// Reference the button text of the connect form.
+    /// Referencia al campo de texto del botón conectar.
     /// </summary>
-    public TextMeshProUGUI ConnectButtonText;
-    
+    public TextMeshProUGUI textoBotonConectar;
     /// <summary>
-    /// Reference to the button text the connect form that allows you to switch between
-    /// the user login and the new user registration forms.
+    /// Referencia al campo de texto del botón que permite cambiar entre formularios.
+    /// El formulario de registro y el formulario de inicio de sesión.
     /// </summary>
-    public TextMeshProUGUI ChangeFormButtonText;
-    
+    public TextMeshProUGUI textoBotonCambiarFormulario;
     /// <summary>
-    /// Reference to the status text of the connect form.
+    /// Referencia al campo de texto que mostrará información acerca del estado de la conección.
     /// </summary>
-    public TextMeshProUGUI StatusText;
-
-    [Header("Input Fields Texts")] // ------------------------------------------------
-
-    /// <summary>
-    /// Represents the username text field
-    /// </summary>
-    public Text UsernameText;
-
-    /// <summary>
-    /// Represents the user email text field
-    /// </summary>
-    public TextMeshProUGUI UserEmailText;
-
-    /// <summary>
-    /// Represents the user password text field
-    /// </summary>
-    public TextMeshProUGUI UserPassword;
+    public TextMeshProUGUI textoDeEstado;
 
 
-    [Header("UI Objects")] // --------------------------------------------------------
-    
+    [Header("TEXTO DE LOS INPUTFIELDS")] // ------------------------------------------
+    /// <summary>
+    /// Representa el campo de texto de donde se obtendrá el nombre de usuario.
+    /// </summary>
+    public TextMeshProUGUI textoNombreUsuario;
+    /// <summary>
+    /// Representa el campo de texto de donde se obtendrá el correo del usuario.
+    /// </summary>
+    public TextMeshProUGUI textoCorreoUsuario;
+    /// <summary>
+    /// Representa el campo de texto de donde se obtendrá la contraseña del usuario.
+    /// </summary>
+    public TextMeshProUGUI textoContraUsuario;
+
+
+    [Header("OBJETOS UI")] // --------------------------------------------------------
     /// <summary>
     /// Reference to the InputField game object that captures the username.
     /// </summary>
     public GameObject UsernameInputField;
 
-
     #endregion PUBLIC UI COMPONENTS
     
-    #region UNITY METHODS
+    #region MÉTODOS DE UNITY
 
     private void Start()
     {
+        // Se asigna el ID del titulo a la configuración de PlayFab.
         if (string.IsNullOrEmpty(PlayFabSettings.TitleId))
             PlayFabSettings.TitleId = "9CC1F";
         
-        SetLoginForm();
+        // Se inicializa el formulario de inicio de sesión.
+        InicializarFormularioInicioSesion();
     }
 
     #endregion
 
-    #region LOGIN USER METHODS
+    #region MÉTODOS PARA EL INICIO DE SESIÓN
 
     /// <summary>
-    /// Method that allows the user to log in.
+    /// Método que le permite al usuario iniciar sesión.
     /// </summary>
-    private void OnLoginUser()
+    private void IniciarSesion()
     {
         var request = new LoginWithEmailAddressRequest() { Email = _userEmail, Password = _userPassword };
-        PlayFabClientAPI.LoginWithEmailAddress(request, OnLoginSuccess, OnLoginFailure);
+        PlayFabClientAPI.LoginWithEmailAddress(request, InicioDeSesionExitoso, InicioDeSesionFallido);
     }
 
     /// <summary>
-    /// Method that is invoked when the user succeeds in logging in successfully.
+    /// Método que es invocado cuando el usuario inicio sesión con éxito.
     /// </summary>
-    /// <param name="_result"></param>
-    private void OnLoginSuccess(LoginResult _result)
+    /// <param name="_resultado">Información acerca del inicio de sesión.</param>
+    private void InicioDeSesionExitoso(LoginResult _resultado)
     {
-        Debug.Log("Login success.");
+        Debug.Log("Inicio de sesión exitoso.");
         
-        // Init player data.
-        GetPlayFabPlayerData(_result.PlayFabId);
+        // Inicializar los datos del jjugador.
+        GetPlayFabPlayerData(_resultado.PlayFabId);
 
-        // Desactive this object.
-        this.gameObject.SetActive(false);
+        // desactivar este objeto.
+        gameObject.SetActive(false);
     }
 
     /// <summary>
     /// Method that is invoked when the user fails to log in successfully.
     /// </summary>
-    /// <param name="_error"></param>
-    private void OnLoginFailure(PlayFabError _error)
+    /// <param name="_error">Información acerca del error de inicio de sesión.</param>
+    private void InicioDeSesionFallido(PlayFabError _error)
     {
-        StatusText.text = "Status: Login failure " + _error.GenerateErrorReport();
+        textoDeEstado.text = "Estado: Error al iniciar sesión | " + _error.GenerateErrorReport();
     }
 
     #endregion
 
-    #region REGISTER USER METHODS
+    #region MÉTODOS PARA EL REGISTRO DE USUARIOS
 
     /// <summary>
-    /// Method that is invoked when you want to register a new user.
+    /// Método que permite registrar un nuevo usuario.
     /// </summary>
-    private void OnRegisterUser()
+    private void RegistrarUsuario()
     {
         if (!string.IsNullOrEmpty(_userEmail))
             _userEmail = _userEmail.ToLower();
 
-        if (!string.IsNullOrEmpty(_username))
-            _username = _username.ToUpper();
-
-
-        Debug.LogWarning("Email: " + _userEmail);
-        Debug.LogWarning("Password: " + _userPassword);
-        Debug.LogWarning("Username: " + _username);
-
-
         var request = new RegisterPlayFabUserRequest()
         {
-            Email = _userEmail,
-            Password = _userPassword,
-            Username = _username,
+            Email       = _userEmail,
+            Password    = _userPassword,
+            Username    = _username,
             DisplayName = _username
         };
-        PlayFabClientAPI.RegisterPlayFabUser(request, OnRegisterUserSuccess, OnRegisterUserFailure);
+        PlayFabClientAPI.RegisterPlayFabUser(request, RegistroDeUsuarioExitoso, OnRegisterUserFailure);
     }
     
     /// <summary>
-    /// Method that is invoked when the user registers successfully.
+    /// Método que es invocado cuando se registra un nuevo usuario con éxito.
     /// </summary>
-    /// <param name="_result"></param>
-    private void OnRegisterUserSuccess(RegisterPlayFabUserResult _result)
+    /// <param name="_resultado">Información del registro.</param>
+    private void RegistroDeUsuarioExitoso(RegisterPlayFabUserResult _resultado)
     {
         Debug.Log("User register success.");
         
-        StatusText.text = "Status: register new user success";
+        textoDeEstado.text = "Status: register new user success";
 
-        OnLoginUser();
+        IniciarSesion();
     }
 
     /// <summary>
-    /// Method that is invoked when the user did not register successfully.
+    /// Método que es invocadoc cuando ocurre un error al registrar un usuario.
     /// </summary>
-    /// <param name="_error"></param>
+    /// <param name="_error">Información acerca del error.</param>
     private void OnRegisterUserFailure(PlayFabError _error)
     {
-        StatusText.text = "Status: register new user failure " + _error.GenerateErrorReport();
-        Debug.LogError("Here's some debug information:");
-        Debug.LogError(_error.GenerateErrorReport());
+        textoDeEstado.text = "Estado: Error al registrar nuevo usuario | " + _error.GenerateErrorReport();
     }
 
     #endregion
     
-    #region GET PLAYER DATA
+    #region DATOS DEL JUGADOR
 
     /// <summary>
-    /// Method that allows obtaining all user data.
+    /// Método que nos permite inicializar los datos del jugador que inicio sesión.
     /// </summary>
-    /// <param name="_PlayFabId"> Unique ID of the player </param>
+    /// <param name="_PlayFabId">ID único que oermite identificar al jugador.</param>
     private void GetPlayFabPlayerData(string _PlayFabId)
     {
-        // Set player PlayFabID.
+        // Guardamos el ID.
         DatosJugador.Get.PlayFabID = _PlayFabId;
         
-        // Set player display name.
+        // Guardamos el nombre del usuario.
         var requesProfile = new GetPlayerProfileRequest() { PlayFabId = _PlayFabId };
         PlayFabClientAPI.GetPlayerProfile(requesProfile,
             result =>
             {
                 DatosJugador.Get.Nombre = result.PlayerProfile.DisplayName;
                 
-                // Invoke the action that the user has been authenticated
-                OnAuthenticated?.Invoke();
+                // Invocamos el evento de que fue autentificado.
+                evntAutentificado?.Invoke();
                 
-                // Load game menu scene.
+                // Cargamos la escena del menu.
                 SceneManager.LoadScene("Menu", LoadSceneMode.Single);
             },
             error =>
@@ -233,65 +216,66 @@ public class PlayFabFormularioLogin : MonoBehaviour
     #region SET USER FORMS
 
     /// <summary>
-    /// Method that allows initializing the connect form to log in.
+    /// Método que inicializa el formulario para el inicio de sesión.
     /// </summary>
-    private void SetLoginForm()
+    private void InicializarFormularioInicioSesion()
     {
-        _isOnLoginForm = true;
+        _estaIniciandoSesion = true;
         
-        StatusText.text           = "STATUS: WAITING";
-        TitleText.text            = "LOGIN FORM";
-        ConnectButtonText.text    = "Login";
-        ChangeFormButtonText.text = "Register user";
+        textoDeEstado.text               = "Estado: esperando acción del usuario...";
+        textoTitulo.text                 = "INICIO DE SESIÓN";
+        textoBotonConectar.text          = "Iniciar sesión";
+        textoBotonCambiarFormulario.text = "Registrar";
         
         UsernameInputField.SetActive(false);
     }
 
     /// <summary>
-    /// Method that allows initializing the connect form to register a new user.
+    /// Método que inicializa el formulario para el registro de usuario.
     /// </summary>
-    private void SetRegisterForm()
+    private void InicializarFormularioRegistroUsuario()
     {
-        _isOnLoginForm = false;
+        _estaIniciandoSesion = false;
         
-        StatusText.text           = "STATUS: WAITING";
-        TitleText.text            = "REGISTER FORM";
-        ConnectButtonText.text    = "Register";
-        ChangeFormButtonText.text = "Login";
+        textoDeEstado.text               = "Estado: esperando acción del usuario...";
+        textoTitulo.text                 = "REGISTRO";
+        textoBotonConectar.text          = "Registrar";
+        textoBotonCambiarFormulario.text = "Iniciar sesión";
 
         UsernameInputField.SetActive(true);
     } 
 
     #endregion
 
-    #region UI LOGIC
+    #region LÓGICA DEL UI
 
     /// <summary>
-    /// Allows the user to change forms.
+    /// Método que permite cmabiar de formulario.
     /// </summary>
-    public void OnChangeForm()
+    public void CambiarDeFormulario()
     {
-        if (_isOnLoginForm) SetRegisterForm();
-        else SetLoginForm();
+        if (_estaIniciandoSesion) InicializarFormularioRegistroUsuario();
+        else InicializarFormularioInicioSesion();
     }
     
     /// <summary>
-    /// Method that allows you to log in or register a new user depending on the form.
+    /// Método que permite iniciar sesión o registrar al usuario dependiendo del formulario
+    /// en el que se encuentre.
     /// </summary>
-    public void OnConnectUser()
+    public void ConectarUsuario()
     {
-        // Get the username.
-        _username = UsernameText.text;
+        // Obtener el nombre de usuario.
+        _username = textoNombreUsuario.text;
 
-        // Get the user e-mail.
-        _userEmail = UserEmailText.text;
+        // Obtener el correo del usuario.
+        _userEmail = textoCorreoUsuario.text;
 
-        // Get the user password.
-        _userPassword = UserPassword.text;
+        // Obtener la contraseña del usuario.
+        _userPassword = textoContraUsuario.text;
 
-        // Login or register user.
-        if (_isOnLoginForm) OnLoginUser();
-        else OnRegisterUser();
+        // Iniciar sesión o registrar al usuario.
+        if (_estaIniciandoSesion) IniciarSesion();
+        else RegistrarUsuario();
     }
     
     #endregion

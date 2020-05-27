@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemigo1 : EnemigoBase
+public class Enemigo2 : EnemigoBase
 {
     #region CONSTANTES
 
@@ -10,7 +10,11 @@ public class Enemigo1 : EnemigoBase
     /// <summary>
     /// Velocidad inicial en el eje horizontal.
     /// </summary>
-    private float VELOCIDAD_INICIAL_X = 7f;
+    private float VELOCIDAD_INICIAL_X = 13f;
+    /// <summary>
+    /// Velocidad inicial en el eje horizontal.
+    /// </summary>
+    private float VELOCIDAD_INICIAL_Y = 0f;
 
     // TIEMPO ----------------------------------------------------------------------
     /// <summary>
@@ -22,10 +26,14 @@ public class Enemigo1 : EnemigoBase
 
     #region MÉTODOS DE UNITY
 
-    // Se reinicia el temporizador cada vez que el objeto se activa.
-    private void OnEnable() => ResetTimer();
+    // se reinicia la velocidad en Y y el temporizador cada vez que el objeto se activa.
+    private void OnEnable()
+    {
+        ResetTimer();
+        velocidadY = VELOCIDAD_INICIAL_Y;
+    }
 
-    // Se inicializan las variables.
+    // Inicializamos las variables
     void Start()
     {
         // TIEMPO ----------------------------------------------------------------------
@@ -33,40 +41,44 @@ public class Enemigo1 : EnemigoBase
 
         // MOVIMIENTO ------------------------------------------------------------------
         velocidadX = VELOCIDAD_INICIAL_X;
-        direccion  = transform.position.x < 0 ? 1f : -1f;
+        velocidadY = VELOCIDAD_INICIAL_Y;
+
+        direccion = transform.position.x < 0 ? 1f : -1f;
     }
 
-    // Update is called once per frame
+    // Se actualiza la lógica del enemigo.
     void Update()
     {
         TimerParaDisparar();
-
         Mover();
         Disparar();
+
     }
     #endregion
 
     #region MÉTODOS PRIVADOS
 
     /// <summary>
-    /// Método que se encarga de mover al enemigo.
+    /// Método encargado del movimiento del enemigo.
     /// </summary>
-    private new void Mover() 
+    private new void Mover()
     {
-        transform.position += new Vector3(direccion * velocidadX * Time.deltaTime, 0, 0);
+        transform.position += new Vector3(direccion * velocidadX * Time.deltaTime, velocidadY, 0);
+        velocidadY -= 0.001f;
     }
 
     /// <summary>
-    /// Método que se encarga de realizar los disparos.
+    /// Método encargado de disparar.
     /// </summary>
-    private new void Disparar() {
+    private new void Disparar()
+    {
         if (timer > tiempoRecargaDisparo)
         {
             nuevoProyectil = ObjectsRepository.UseRepository("EnemyBullet", transform.position, Quaternion.identity);
             nuevoProyectil.GetComponent<BalaEnemigo>().ColorBala(esRojo);
             if (!esRojo) nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilAzul;
             else nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilRojo;
-            timer = 0f;
+            ResetTimer();
         }
     }
 
@@ -76,7 +88,7 @@ public class Enemigo1 : EnemigoBase
     /// <param name="_color">Color del enemigo.</param>
     public void ColorEnemigo(int _color)
     {
-        if(_color == ROJO)
+        if (_color == ROJO)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = spritesEnemigo[ROJO];
             esRojo = true;

@@ -1,8 +1,8 @@
 {
-    "name": "InputActions",
+    "name": "InputActionsGameplay",
     "maps": [
         {
-            "name": "Nave (WASD)",
+            "name": "Teclado",
             "id": "dfbb7882-d57e-4767-9d1d-4219dc6dcd0c",
             "actions": [
                 {

@@ -61,17 +61,27 @@ public class GameplayUI : MonoBehaviour
     // Suscribimos los métodos a los eventos pertinentes.
     private void OnEnable()
     {
-        ControlladorNave.evntMensajeInput += MostrarMensajeInput;
-        ControlladorNave.evntNombre       += ActualizarNombreJugador;
-        ControlladorNave.evntVida         += ActualizarVidasJugador;
+        ControladorNave.evntMensajeInput += MostrarMensajeInput;
+        ControladorNave.evntNombre       += ActualizarNombreJugador;
+        ControladorNave.evntVida         += ActualizarVidasJugador;
+
+        DatosJugador.evntPuntuacion      += ActualizarPuntuacionJugador;
+
+        ControladorRutinas.evntVictoria  += PartidaGanada;
     }
 
     // Se desuscriben todos los métodos de sus eventos.
     private void OnDisable()
     {
-        ControlladorNave.evntMensajeInput -= MostrarMensajeInput;
-        ControlladorNave.evntNombre       -= ActualizarNombreJugador;
-        ControlladorNave.evntVida         -= ActualizarVidasJugador;
+        ControladorNave.evntMensajeInput -= MostrarMensajeInput;
+        ControladorNave.evntNombre       -= ActualizarNombreJugador;
+        ControladorNave.evntVida         -= ActualizarVidasJugador;
+
+        DatosJugador.evntPuntuacion      -= ActualizarPuntuacionJugador;
+
+        ControladorRutinas.evntVictoria  -= PartidaGanada;
+
+
     }
 
     // Inicializamos las variables y componentes.
@@ -80,8 +90,9 @@ public class GameplayUI : MonoBehaviour
         // TEXTOS DE INFORMACIÓN -------------------------------------------------------
         textoMensaje.text       = string.Empty;
         textoNombreJugador.text = string.Empty;
-        textoPuntuacion.text    = string.Empty;
         textoVidas.text         = string.Empty;
+
+        textoPuntuacion.text    = "Puntos: 0";
 
         // PANELES ---------------------------------------------------------------------
         panelInfoJuego.SetActive(true);
@@ -112,7 +123,7 @@ public class GameplayUI : MonoBehaviour
     /// <summary>
     /// Método que actualiza las vidas del jugador.
     /// </summary>
-    /// <param name="_vidas"></param>
+    /// <param name="_vidas">Número de vidas extra que tiene el jugador.</param>
     private void ActualizarVidasJugador(int _vidas) 
     { 
         if (_vidas >= 0)
@@ -121,9 +132,33 @@ public class GameplayUI : MonoBehaviour
         } 
         else
         {
+            // Se activa el panel de fin de juego.
             panelFinJuego.SetActive(true);
+            textoFinJuego.text = "PERDISTE";
+
+            // Se desactiva el panel de información.
             panelInfoJuego.SetActive(false);
         }
+    }
+
+    /// <summary>
+    /// Método que actualiza la puntuación del jugador.
+    /// </summary>
+    /// <param name="_puntuacion">Puntuación del jugador.</param>
+    private void ActualizarPuntuacionJugador(int _puntuacion)
+    {
+        textoPuntuacion.text = "Puntos: " + _puntuacion;
+    }
+
+
+    private void PartidaGanada()
+    {
+        // Se activa el panel de fin de juego.
+        panelFinJuego.SetActive(true);
+        textoFinJuego.text = "GANASTE";
+
+        // Se desactiva el panel de información.
+        panelInfoJuego.SetActive(false);
     }
 
     #endregion
