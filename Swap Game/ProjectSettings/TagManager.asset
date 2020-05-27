@@ -10,6 +10,7 @@ TagManager:
   - BalaEnemigo
   - EnemigoC
   - EnemigoC2
+  - Proyectil
   layers:
   - Default
   - TransparentFX

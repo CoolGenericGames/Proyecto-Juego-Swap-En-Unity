@@ -67,7 +67,7 @@ public class PlayFabFormularioLogin : MonoBehaviour
     /// <summary>
     /// Representa el campo de texto de donde se obtendrá el nombre de usuario.
     /// </summary>
-    public TextMeshProUGUI textoNombreUsuario;
+    public Text textoNombreUsuario;
     /// <summary>
     /// Representa el campo de texto de donde se obtendrá el correo del usuario.
     /// </summary>

@@ -22,6 +22,12 @@ public class Enemigo2 : EnemigoBase
     /// </summary>
     private float TIEMPO_INICIAL_RECARGA_DISPARO = 0.15f;
 
+    // PUNTOS ----------------------------------------------------------------------
+    /// <summary>
+    /// Valor en puntos que tiene el enemigo triangulo.
+    /// </summary>
+    private const int PUNTOS_TRIANGULO = 15;
+
     #endregion
 
     #region MÉTODOS DE UNITY
@@ -54,6 +60,24 @@ public class Enemigo2 : EnemigoBase
         Disparar();
 
     }
+    #endregion
+
+    #region MÉTODOS DE COLISIÓN DE UNITY
+
+    private void OnTriggerEnter2D(Collider2D _collider2D)
+    {
+        // Si colisiona con el proyectil.
+        if (_collider2D.CompareTag("Proyectil"))
+        {
+            // Regresamos el objeto.
+            Explotar(gameObject.transform.position, gameObject);
+
+            // Se añanden puntos al jugador.
+            if (DatosJugador.Get != null)
+                DatosJugador.Get.Puntuacion += PUNTOS_TRIANGULO;
+        }
+    }
+
     #endregion
 
     #region MÉTODOS PRIVADOS
@@ -102,4 +126,5 @@ public class Enemigo2 : EnemigoBase
         }
     }
     #endregion
+
 }

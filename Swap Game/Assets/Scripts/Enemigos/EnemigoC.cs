@@ -12,6 +12,12 @@ public class EnemigoC : EnemigoBase
     /// </summary>
     private float VELOCIDAD_INICIAL_Y = -5f;
 
+    // PUNTOS ----------------------------------------------------------------------
+    /// <summary>
+    /// Valor en puntos que tiene el enemigo circulo.
+    /// </summary>
+    private const int PUNTOS_CIRCULO = 5;
+
     #endregion
 
     #region MÉTODOS DE UNITY
@@ -30,7 +36,29 @@ public class EnemigoC : EnemigoBase
 
     #endregion
 
+    #region MÉTODO DE COLISIÓN DE UNITY
+
+    private void OnTriggerEnter2D(Collider2D _collider2D)
+    {
+        // Si colisiona con el proyectil.
+        if (_collider2D.CompareTag("Proyectil"))
+        {
+            // Se crean los proyectiles.
+            CrearProyectil();
+
+            // Regresamos el objeto.
+            Explotar(gameObject.transform.position, gameObject);
+
+            // Se añanden puntos al jugador.
+            if (DatosJugador.Get != null)
+                DatosJugador.Get.Puntuacion += PUNTOS_CIRCULO;
+        }
+    }
+
+    #endregion
+
     #region MÉTODOS PRIVADOS
+
     /// <summary>
     /// Método que se encarga del movimiento del enemigo.
     /// </summary>
@@ -89,5 +117,6 @@ public class EnemigoC : EnemigoBase
         else nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilRojo;
 
     }
+
     #endregion
 }

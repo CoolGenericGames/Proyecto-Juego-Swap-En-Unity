@@ -7,21 +7,6 @@ public class MovimientoBala : MonoBehaviour
 {
     #region CONSTANTES
 
-    // PUNTOS ----------------------------------------------------------------------
-    /// <summary>
-    /// Valor en puntos que tiene el enemigo cuadrado.
-    /// </summary>
-    private const int PUNTOS_CUADRADO = 10;
-    /// <summary>
-    /// Valor en puntos que tiene el enemigo triangulo.
-    /// </summary>
-    private const int PUNTOS_TRIANGULO = 15;
-    /// <summary>
-    /// Valor en puntos que tiene el enemigo circulo.
-    /// </summary>
-    private const int PUNTOS_CIRCULO = 5;
-
-
     // MOVIMIENTO ------------------------------------------------------------------
     private const float VELOCIDAD_INICIAL = 30f;
 
@@ -75,34 +60,10 @@ public class MovimientoBala : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D _collider2D)
     {
-        // Si el enemigo es un cuadrado. ----------------------------------------------
-        if (_collider2D.CompareTag("Enemigo"))
+        // Si colisiona con un enemigo.
+        if (_collider2D.CompareTag("Enemigo") || _collider2D.CompareTag("EnemigoC2") || _collider2D.CompareTag("EnemigoC"))
         {
-            Explotar(_collider2D.transform.position, _collider2D.gameObject);
             DevolverALaLista(gameObject);
-
-            if (DatosJugador.Get != null) 
-                DatosJugador.Get.Puntuacion += PUNTOS_CUADRADO;
-        }
-        // Si el enemigo es un triángulo. ---------------------------------------------
-        else if (_collider2D.CompareTag("EnemigoC2"))
-        {
-            Explotar(_collider2D.transform.position, _collider2D.gameObject);
-            DevolverALaLista(gameObject);
-
-            if (DatosJugador.Get != null)
-                DatosJugador.Get.Puntuacion += PUNTOS_TRIANGULO;
-        }
-        // Si el enemigo es un circulo. -----------------------------------------------
-        else if (_collider2D.CompareTag("EnemigoC"))
-        {
-            _collider2D.GetComponent<EnemigoC>().CrearProyectil();
-
-            Explotar(_collider2D.transform.position, _collider2D.gameObject);
-            DevolverALaLista(gameObject);
-
-            if (DatosJugador.Get != null)
-                DatosJugador.Get.Puntuacion += PUNTOS_CIRCULO;
         }
     }
 

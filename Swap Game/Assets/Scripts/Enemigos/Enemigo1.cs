@@ -18,6 +18,12 @@ public class Enemigo1 : EnemigoBase
     /// </summary>
     private float TIEMPO_INICIAL_RECARGA_DISPARO = 0.15f;
 
+    // PUNTOS ----------------------------------------------------------------------
+    /// <summary>
+    /// Valor en puntos que tiene el enemigo cuadrado.
+    /// </summary>
+    private const int PUNTOS_CUADRADO = 10;
+
     #endregion
 
     #region MÉTODOS DE UNITY
@@ -46,6 +52,24 @@ public class Enemigo1 : EnemigoBase
     }
     #endregion
 
+    #region MÉTODOS DE COLISIÓN DE UNITY
+
+    private void OnTriggerEnter2D(Collider2D _collider2D)
+    {
+        // Si colisiona con el proyectil.
+        if (_collider2D.CompareTag("Proyectil"))
+        {
+            // Regresamos el objeto.
+            Explotar(gameObject.transform.position, gameObject);
+
+            // Se añanden puntos al jugador.
+            if (DatosJugador.Get != null)
+                DatosJugador.Get.Puntuacion += PUNTOS_CUADRADO;
+        }
+    }
+
+    #endregion
+
     #region MÉTODOS PRIVADOS
 
     /// <summary>
@@ -59,7 +83,8 @@ public class Enemigo1 : EnemigoBase
     /// <summary>
     /// Método que se encarga de realizar los disparos.
     /// </summary>
-    private new void Disparar() {
+    private new void Disparar() 
+    {
         if (timer > tiempoRecargaDisparo)
         {
             nuevoProyectil = ObjectsRepository.UseRepository("EnemyBullet", transform.position, Quaternion.identity);
@@ -89,5 +114,6 @@ public class Enemigo1 : EnemigoBase
             color = COLOR_NAVE.AZUL;
         }
     }
+
     #endregion
 }

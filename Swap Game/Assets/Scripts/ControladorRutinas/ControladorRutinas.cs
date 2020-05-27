@@ -47,6 +47,12 @@ public class ControladorRutinas : MonoBehaviour
     /// </summary>
     private GameObject enemigoInstanciado;
 
+    // IENUMERATOR -------------------------------------------------------------------
+    /// <summary>
+    /// Variable que guarda corrutina.
+    /// </summary>
+    private IEnumerator corrutina;
+
     #endregion
 
     #region COMPONENTES
@@ -68,13 +74,6 @@ public class ControladorRutinas : MonoBehaviour
     // CÁMARA ----------------------------------------------------------------------
     private Camera camara;
 
-    #endregion
-
-    #region IEnumerator
-    /// <summary>
-    /// Variable que guarda corrutina.
-    /// </summary>
-    private IEnumerator corrutina;
     #endregion
 
     #region MÉTODOS UNITY

@@ -118,4 +118,35 @@ public class EnemigoBase : MonoBehaviour
     public void ResetTimer() { timer = 0; }
 
     #endregion
+
+    #region MÉTODOS PRIVADOS
+
+    /// <summary>
+    /// Función que permite instanciar una explosión.
+    /// </summary>
+    /// <param name="_posicion"> Posición de la explosión. </param>
+    /// <param name="_objeto"> Objeto que explotó y debe ser regresado al repositorio. </param>
+    protected void Explotar(Vector3 _posicion, GameObject _objeto = null)
+    {
+        // Se crea la exploción.
+        ObjectsRepository.UseRepository("Explosion", _posicion, Quaternion.identity);
+
+        // Si hay un objeto.
+        if (_objeto)
+        {
+            // Se regresa el objeto que exploto al repositorio.
+            DevolverALaLista(_objeto.gameObject);
+        }
+    }
+
+    /// <summary>
+    /// Método que nos permite devolver a la lista un objeto.
+    /// </summary>
+    /// <param name="_objeto">El objeto que se va a devolver a la lista.</param>
+    protected void DevolverALaLista(GameObject _objeto)
+    {
+        ObjectsRepository.BackToRepository(_objeto);
+    }
+
+    #endregion
 }
