@@ -55,6 +55,13 @@ public class MovimientoNave : MonoBehaviour
 
     #endregion
 
+
+
+
+
+
+
+
     #region métodos de Unity
     // Start is called before the first frame update
     void Start()
@@ -76,10 +83,13 @@ public class MovimientoNave : MonoBehaviour
         invencible = 0f;
 
 
-        if(PlayFabPlayerData.Get) PlayerDisplayNameText.text = PlayFabPlayerData.Get.DisplayName;
+        if(DatosJugador.Get) PlayerDisplayNameText.text = DatosJugador.Get.Nombre;
     }
 
     
+
+
+
 
     // Update is called once per frame
     void Update()
@@ -93,13 +103,17 @@ public class MovimientoNave : MonoBehaviour
         }
         numeroVida.text = vidas.ToString();
 
-        if (Input.GetKey(KeyCode.W) && (transform.position.y + naveySize < ySize)) transform.position += moverY * velocidad * Time.deltaTime;
+        if (Input.GetKey(KeyCode.W) && (transform.position.y + naveySize < ySize)) 
+            transform.position += moverY * velocidad * Time.deltaTime;
 
-        else if (Input.GetKey(KeyCode.S) && (transform.position.y - naveySize > -ySize)) transform.position -= moverY * velocidad * Time.deltaTime;
+        else if (Input.GetKey(KeyCode.S) && (transform.position.y - naveySize > -ySize)) 
+            transform.position -= moverY * velocidad * Time.deltaTime;
 
-        if (Input.GetKey(KeyCode.D) && (transform.position.x + navexSize < xSize)) transform.position += moverX * velocidad * Time.deltaTime;
+        if (Input.GetKey(KeyCode.D) && (transform.position.x + navexSize < xSize)) 
+            transform.position += moverX * velocidad * Time.deltaTime;
 
-        else if (Input.GetKey(KeyCode.A) && (transform.position.x - naveySize > -xSize)) transform.position -= moverX * velocidad * Time.deltaTime;
+        else if (Input.GetKey(KeyCode.A) && (transform.position.x - naveySize > -xSize)) 
+            transform.position -= moverX * velocidad * Time.deltaTime;
 
 
         if (Input.GetKeyDown(KeyCode.P)&&(timer>0.1f))
@@ -129,6 +143,22 @@ public class MovimientoNave : MonoBehaviour
     }
 
     #endregion
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     void Invencibilidad() {
         if (!naveCollider.enabled)

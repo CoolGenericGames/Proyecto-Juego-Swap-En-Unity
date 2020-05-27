@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemigo1 : Enemigos
+public class Enemigo1 : EnemigoBase
 {
 
     #region Métodos de Unity
     void Start()
     {
-        velXEnemigo = 7f;
+        velocidadX = 7f;
         cooldown = 0.15f;
 
         if(transform.position.x < 0){ direccion = 1f;} //Direccion positiva
@@ -25,7 +25,7 @@ public class Enemigo1 : Enemigos
     void Update()
     {
 
-        TimerToShoot();
+        TimerParaDisparar();
 
         Move();
         Shoot();
@@ -35,16 +35,16 @@ public class Enemigo1 : Enemigos
 
     #region Métodos
     private new void Move() {
-        transform.position += new Vector3(direccion * velXEnemigo * Time.deltaTime, 0, 0);
+        transform.position += new Vector3(direccion * velocidadX * Time.deltaTime, 0, 0);
     }
 
     private new void Shoot() {
         if (timer > cooldown)
         {
-            nuevabala = ObjectsRepository.UseRepository("EnemyBullet", transform.position, Quaternion.identity);
-            nuevabala.GetComponent<BalaEnemigo>().ColorBala(esRojo);
-            if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
-            else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
+            nuevoProyectil = ObjectsRepository.UseRepository("EnemyBullet", transform.position, Quaternion.identity);
+            nuevoProyectil.GetComponent<BalaEnemigo>().ColorBala(esRojo);
+            if (!esRojo) nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilAzul;
+            else nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilRojo;
             timer = 0f;
         }
     }

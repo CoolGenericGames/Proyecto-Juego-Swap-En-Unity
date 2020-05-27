@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class PlayFabConnectForm : MonoBehaviour
+public class PlayFabFormularioLogin : MonoBehaviour
 {
     #region ACTIONS & EVENTS
 
@@ -207,14 +207,14 @@ public class PlayFabConnectForm : MonoBehaviour
     private void GetPlayFabPlayerData(string _PlayFabId)
     {
         // Set player PlayFabID.
-        PlayFabPlayerData.Get.PlayFabID = _PlayFabId;
+        DatosJugador.Get.PlayFabID = _PlayFabId;
         
         // Set player display name.
         var requesProfile = new GetPlayerProfileRequest() { PlayFabId = _PlayFabId };
         PlayFabClientAPI.GetPlayerProfile(requesProfile,
             result =>
             {
-                PlayFabPlayerData.Get.DisplayName = result.PlayerProfile.DisplayName;
+                DatosJugador.Get.Nombre = result.PlayerProfile.DisplayName;
                 
                 // Invoke the action that the user has been authenticated
                 OnAuthenticated?.Invoke();

@@ -3,44 +3,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayFabPlayerData : MonoBehaviour
+public class DatosJugador : MonoBehaviour
 {
     #region SINGLETON
 
     /// <summary>
     /// Single instance containing the user's important PlayFab data.
     /// </summary>
-    private static PlayFabPlayerData _instance;
+    private static DatosJugador _instancia;
 
     #endregion
 
-    #region PROPERTIES
+    #region PROPIEDADES
 
     /// <summary>
-    /// Property that allows us to access the data of the PlayFab player.
+    /// Permite acceder al los datos de PlayFab del jugador.
     /// </summary>
-    public static PlayFabPlayerData Get { get => _instance; }
+    public static DatosJugador Get { get => _instancia; }
 
     /// <summary>
-    /// Player name to be displayed in the game.
+    /// Nombre del jugador.
     /// </summary>
-    public string DisplayName { get; set; }
+    public string Nombre { get; set; }
     
     /// <summary>
-    /// Unique ID of the player
+    /// ID único del jugador.
     /// </summary>
     public string PlayFabID { get; set; }
 
     #endregion
     
-    #region UNITY METHODS
+    #region MÉTODOS DE UNITY
 
     private void Awake()
     {
-        // Init singleton.
-        _instance = this;
+        // Inicializamos el singleton.
+        _instancia = this;
         
-        // Prevent the object from being destroyed.
+        // Prevenimos que el objeto sea destruido al cargar escenas.
         DontDestroyOnLoad(this.gameObject);
     }
 

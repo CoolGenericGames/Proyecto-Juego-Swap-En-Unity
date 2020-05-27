@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemigo2 : Enemigos
+public class Enemigo2 : EnemigoBase
 {
 
     #region Métodos de Unity
     void Start()
     {
-        velXEnemigo = 13f;
-        velYEnemigo = 0f;
+        velocidadX = 13f;
+        velocidadY = 0f;
         cooldown = 0.15f;
 
         if (transform.position.x < 0) { direccion = 1f; } //Direccion positiva
@@ -19,20 +19,20 @@ public class Enemigo2 : Enemigos
     private void OnEnable()
     {
         ResetTimer();
-        velYEnemigo = 0f;
+        velocidadY = 0f;
     }
     private void OnDisable()
     {
         ResetTimer();
-        velYEnemigo = 0f;
+        velocidadY = 0f;
     }
 
     // Update is called once per frame
     void Update()
     {
-        TimerToShoot();
+        TimerParaDisparar();
         Move();
-        velYEnemigo -= 0.001f;
+        velocidadY -= 0.001f;
         Shoot();
 
     }
@@ -41,17 +41,17 @@ public class Enemigo2 : Enemigos
     #region Métodos
     private new void Move()
     {
-        transform.position += new Vector3(direccion * velXEnemigo * Time.deltaTime, velYEnemigo, 0);
+        transform.position += new Vector3(direccion * velocidadX * Time.deltaTime, velocidadY, 0);
     }
 
     private new void Shoot()
     {
         if (timer > cooldown)
         {
-            nuevabala = ObjectsRepository.UseRepository("EnemyBullet", transform.position, Quaternion.identity);
-            nuevabala.GetComponent<BalaEnemigo>().ColorBala(esRojo);
-            if (!esRojo) nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaAzul;
-            else nuevabala.GetComponent<SpriteRenderer>().sprite = spriteBalaRoja;
+            nuevoProyectil = ObjectsRepository.UseRepository("EnemyBullet", transform.position, Quaternion.identity);
+            nuevoProyectil.GetComponent<BalaEnemigo>().ColorBala(esRojo);
+            if (!esRojo) nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilAzul;
+            else nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilRojo;
             ResetTimer();
         }
     }
