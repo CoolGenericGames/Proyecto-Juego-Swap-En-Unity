@@ -71,11 +71,11 @@ public class PlayFabFormularioLogin : MonoBehaviour
     /// <summary>
     /// Representa el campo de texto de donde se obtendrá el correo del usuario.
     /// </summary>
-    public TextMeshProUGUI textoCorreoUsuario;
+    public Text textoCorreoUsuario;
     /// <summary>
     /// Representa el campo de texto de donde se obtendrá la contraseña del usuario.
     /// </summary>
-    public TextMeshProUGUI textoContraUsuario;
+    public Text textoContraUsuario;
 
 
     [Header("OBJETOS UI")] // --------------------------------------------------------
@@ -163,9 +163,9 @@ public class PlayFabFormularioLogin : MonoBehaviour
     /// <param name="_resultado">Información del registro.</param>
     private void RegistroDeUsuarioExitoso(RegisterPlayFabUserResult _resultado)
     {
-        Debug.Log("User register success.");
+        Debug.Log("Nuevo usuario registrado.");
         
-        textoDeEstado.text = "Status: register new user success";
+        textoDeEstado.text = "Estado: Nuevo usuario registrado.";
 
         IniciarSesion();
     }
@@ -197,7 +197,9 @@ public class PlayFabFormularioLogin : MonoBehaviour
         PlayFabClientAPI.GetPlayerProfile(requesProfile,
             result =>
             {
+                // Se guarda el nombre del jugador y se cargan los datos.
                 DatosJugador.Get.Nombre = result.PlayerProfile.DisplayName;
+                DatosJugador.Get.ObtenerDatos();
                 
                 // Invocamos el evento de que fue autentificado.
                 evntAutentificado?.Invoke();

@@ -124,8 +124,17 @@ public class ControladorRutinas : MonoBehaviour
 
         // Se invoca el evento de victoria.
         evntVictoria?.Invoke();
+
+        // Se actualiza el puntaje del jugador.
+        if (DatosJugador.Get != null)
+            DatosJugador.Get.ActualizarPuntuacion();
     }
 
+    /// <summary>
+    /// Método que es invocado cuando el jugador pierde vidas.
+    /// Si el jugador pierde todas sus vidas, la rutina del juego se detiene.
+    /// </summary>
+    /// <param name="_vidas"</param>
     private void VerficarDerrota(int _vidas)
     {
         // Si el jugador se quedo sin vidas.
@@ -134,7 +143,9 @@ public class ControladorRutinas : MonoBehaviour
             // Se detiene la rutina de los enemigos.
             StopCoroutine(corrutina);
 
-            // Se limpia el repositorio.           
+            // Se actualiza el puntaje del jugador.
+            if (DatosJugador.Get != null)
+                DatosJugador.Get.ActualizarPuntuacion();
         }
     }
 
