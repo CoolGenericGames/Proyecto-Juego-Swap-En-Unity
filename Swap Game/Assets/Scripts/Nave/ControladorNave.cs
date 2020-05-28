@@ -307,9 +307,8 @@ public class ControladorNave : MonoBehaviour
                 StartCoroutine(RutinaInvencible());
                 vidas--;
             } 
-
             // Si colisiona con un proyectil enemigo.
-            if (_collider2D.CompareTag("BalaEnemigo"))
+            else if (_collider2D.CompareTag("BalaEnemigo"))
             {
                 // Si es un proyectil normal.
                 if (_collider2D.gameObject.GetComponent<BalaEnemigo>() != null)
@@ -356,7 +355,7 @@ public class ControladorNave : MonoBehaviour
 
             // Revisar las vidas.
             evntVida?.Invoke(vidas);
-            if (vidas < 0) gameObject.SetActive(false);
+            if (vidas < 0) Desactivar();
         }
     }
 

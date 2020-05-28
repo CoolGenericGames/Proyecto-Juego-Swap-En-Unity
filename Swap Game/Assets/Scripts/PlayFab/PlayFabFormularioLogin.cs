@@ -45,10 +45,6 @@ public class PlayFabFormularioLogin : MonoBehaviour
 
     [Header("TEXTOS DE TextMeshPro")] // ----------------------------------------------
     /// <summary>
-    /// Referencia al campo de texto donde se mostrará el titulo.
-    /// </summary>
-    public TextMeshProUGUI textoTitulo;
-    /// <summary>
     /// Referencia al campo de texto del botón conectar.
     /// </summary>
     public TextMeshProUGUI textoBotonConectar;
@@ -205,7 +201,7 @@ public class PlayFabFormularioLogin : MonoBehaviour
                 evntAutentificado?.Invoke();
                 
                 // Cargamos la escena del menu.
-                SceneManager.LoadScene("Menu", LoadSceneMode.Single);
+                SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
             },
             error =>
             {
@@ -225,8 +221,7 @@ public class PlayFabFormularioLogin : MonoBehaviour
         _estaIniciandoSesion = true;
         
         textoDeEstado.text               = "Estado: esperando acción del usuario...";
-        textoTitulo.text                 = "INICIO DE SESIÓN";
-        textoBotonConectar.text          = "Iniciar sesión";
+        textoBotonConectar.text          = "Conectar";
         textoBotonCambiarFormulario.text = "Registrar";
         
         UsernameInputField.SetActive(false);
@@ -240,9 +235,8 @@ public class PlayFabFormularioLogin : MonoBehaviour
         _estaIniciandoSesion = false;
         
         textoDeEstado.text               = "Estado: esperando acción del usuario...";
-        textoTitulo.text                 = "REGISTRO";
         textoBotonConectar.text          = "Registrar";
-        textoBotonCambiarFormulario.text = "Iniciar sesión";
+        textoBotonCambiarFormulario.text = "Conectarse";
 
         UsernameInputField.SetActive(true);
     } 

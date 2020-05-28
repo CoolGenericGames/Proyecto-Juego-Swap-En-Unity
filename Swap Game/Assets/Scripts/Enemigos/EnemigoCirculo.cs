@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemigoC : EnemigoBase
+public class EnemigoCirculo : EnemigoBase
 {
     #region CONSTANTES
 

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Enemigo2 : EnemigoBase
+public class EnemigoCuadrado : EnemigoBase
 {
     #region CONSTANTES
 
@@ -10,11 +10,7 @@ public class Enemigo2 : EnemigoBase
     /// <summary>
     /// Velocidad inicial en el eje horizontal.
     /// </summary>
-    private float VELOCIDAD_INICIAL_X = 13f;
-    /// <summary>
-    /// Velocidad inicial en el eje horizontal.
-    /// </summary>
-    private float VELOCIDAD_INICIAL_Y = 0f;
+    private float VELOCIDAD_INICIAL_X = 7f;
 
     // TIEMPO ----------------------------------------------------------------------
     /// <summary>
@@ -24,22 +20,18 @@ public class Enemigo2 : EnemigoBase
 
     // PUNTOS ----------------------------------------------------------------------
     /// <summary>
-    /// Valor en puntos que tiene el enemigo triangulo.
+    /// Valor en puntos que tiene el enemigo cuadrado.
     /// </summary>
-    private const int PUNTOS_TRIANGULO = 15;
+    private const int PUNTOS_CUADRADO = 10;
 
     #endregion
 
     #region MÉTODOS DE UNITY
 
-    // se reinicia la velocidad en Y y el temporizador cada vez que el objeto se activa.
-    private void OnEnable()
-    {
-        ResetTimer();
-        velocidadY = VELOCIDAD_INICIAL_Y;
-    }
+    // Se reinicia el temporizador cada vez que el objeto se activa.
+    private void OnEnable() => ResetTimer();
 
-    // Inicializamos las variables
+    // Se inicializan las variables.
     void Start()
     {
         // TIEMPO ----------------------------------------------------------------------
@@ -47,18 +39,16 @@ public class Enemigo2 : EnemigoBase
 
         // MOVIMIENTO ------------------------------------------------------------------
         velocidadX = VELOCIDAD_INICIAL_X;
-        velocidadY = VELOCIDAD_INICIAL_Y;
-
-        direccion = transform.position.x < 0 ? 1f : -1f;
+        direccion  = transform.position.x < 0 ? 1f : -1f;
     }
 
-    // Se actualiza la lógica del enemigo.
+    // Update is called once per frame
     void Update()
     {
         TimerParaDisparar();
+
         Mover();
         Disparar();
-
     }
     #endregion
 
@@ -74,7 +64,7 @@ public class Enemigo2 : EnemigoBase
 
             // Se añanden puntos al jugador.
             if (DatosJugador.Get != null)
-                DatosJugador.Get.Puntuacion += PUNTOS_TRIANGULO;
+                DatosJugador.Get.Puntuacion += PUNTOS_CUADRADO;
         }
     }
 
@@ -83,18 +73,17 @@ public class Enemigo2 : EnemigoBase
     #region MÉTODOS PRIVADOS
 
     /// <summary>
-    /// Método encargado del movimiento del enemigo.
+    /// Método que se encarga de mover al enemigo.
     /// </summary>
-    private new void Mover()
+    private new void Mover() 
     {
-        transform.position += new Vector3(direccion * velocidadX * Time.deltaTime, velocidadY, 0);
-        velocidadY -= 0.001f;
+        transform.position += new Vector3(direccion * velocidadX * Time.deltaTime, 0, 0);
     }
 
     /// <summary>
-    /// Método encargado de disparar.
+    /// Método que se encarga de realizar los disparos.
     /// </summary>
-    private new void Disparar()
+    private new void Disparar() 
     {
         if (timer > tiempoRecargaDisparo)
         {
@@ -102,7 +91,7 @@ public class Enemigo2 : EnemigoBase
             nuevoProyectil.GetComponent<BalaEnemigo>().ColorBala(esRojo);
             if (!esRojo) nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilAzul;
             else nuevoProyectil.GetComponent<SpriteRenderer>().sprite = spriteProyectilRojo;
-            ResetTimer();
+            timer = 0f;
         }
     }
 
@@ -112,7 +101,7 @@ public class Enemigo2 : EnemigoBase
     /// <param name="_color">Color del enemigo.</param>
     public void ColorEnemigo(int _color)
     {
-        if (_color == ROJO)
+        if(_color == ROJO)
         {
             gameObject.GetComponent<SpriteRenderer>().sprite = spritesEnemigo[ROJO];
             esRojo = true;
@@ -125,6 +114,6 @@ public class Enemigo2 : EnemigoBase
             color = COLOR_NAVE.AZUL;
         }
     }
-    #endregion
 
+    #endregion
 }
