@@ -92,7 +92,7 @@ public class GameplayUI : MonoBehaviour
         textoNombreJugador.text = string.Empty;
         textoVidas.text         = string.Empty;
 
-        textoPuntuacion.text    = "Puntos: 0";
+        textoPuntuacion.text    = "0";
 
         // PANELES ---------------------------------------------------------------------
         panelInfoJuego.SetActive(true);
@@ -147,7 +147,7 @@ public class GameplayUI : MonoBehaviour
     /// <param name="_puntuacion">Puntuación del jugador.</param>
     private void ActualizarPuntuacionJugador(int _puntuacion)
     {
-        textoPuntuacion.text = "Puntos: " + _puntuacion;
+        textoPuntuacion.text = _puntuacion.ToString();
     }
 
 

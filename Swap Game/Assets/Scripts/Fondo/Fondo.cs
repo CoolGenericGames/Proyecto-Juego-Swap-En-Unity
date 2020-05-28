@@ -17,11 +17,11 @@ public class Fondo : MonoBehaviour
 
     #region VARIABLES
 
-    // ANIMACIÓN -------------------------------------------------------------------
+    [Header("ANIMACIÓN")] // -------------------------------------------------------
     /// <summary>
     /// Velocidad con la que se mueve el fondo.
     /// </summary>
-    private float velocidadAnim;
+    public float velocidadAnimacion;
 
     // TAMAÑO ----------------------------------------------------------------------
     /// <summary>
@@ -58,7 +58,7 @@ public class Fondo : MonoBehaviour
     private void Start()
     {
         // ANIMACIÓN -------------------------------------------------------------------
-        velocidadAnim = VELOCIDAD_ANIMACION;
+        if (velocidadAnimacion == 0) velocidadAnimacion = VELOCIDAD_ANIMACION;
 
         // TAMAÑO ----------------------------------------------------------------------
         camTamY = camara.orthographicSize;
@@ -69,7 +69,7 @@ public class Fondo : MonoBehaviour
     private void Update()
     {
         // Se mueve hacia abajo.
-        transform.position += Vector3.down * velocidadAnim * Time.deltaTime;
+        transform.position += Vector3.down * velocidadAnimacion * Time.deltaTime;
         if (transform.position.y <= -1f) transform.position -= Vector3.down;
     }
 

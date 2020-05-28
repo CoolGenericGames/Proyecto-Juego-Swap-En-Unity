@@ -154,10 +154,6 @@ public class ControladorNave : MonoBehaviour
     /// Velocidad de movimiento de la nave.
     /// </summary>
     private float velocidad;
-    /// <summary>
-    /// Permite saber si el jugador puede realizar alguna acción.
-    /// </summary>
-    private bool estaActivo;
 
 
     // INVENCIBILIDAD ---------------------------------------------------------------
@@ -280,7 +276,6 @@ public class ControladorNave : MonoBehaviour
 
         // MOVIMIENTO ------------------------------------------------------------------
         velocidad = VELOCIDAD_INICIAL;
-        estaActivo = true;
 
         // INVENCIBILIDAD ---------------------------------------------------------------
         esInvencible = false;
@@ -374,28 +369,24 @@ public class ControladorNave : MonoBehaviour
     /// </summary>
     private void Mover() 
     {
-        // Si el jugador realizar alguna acción.
-        if (estaActivo)
-        {
-            // Referencia a las posiciones X,Y de la nave.
-            float posicionY = transform.position.y;
-            float posicionX = transform.position.x;
+        // Referencia a las posiciones X,Y de la nave.
+        float posicionY = transform.position.y;
+        float posicionX = transform.position.x;
 
-            // MOVIMIENTO VERTICAL ---------------------------------------------------------
-            if (direccion.y == ARRIBA && (posicionY + naveTamY < camTamY))
-                transform.position += Vector3.up * velocidad * Time.deltaTime;
+        // MOVIMIENTO VERTICAL ---------------------------------------------------------
+        if (direccion.y == ARRIBA && (posicionY + naveTamY < camTamY))
+            transform.position += Vector3.up * velocidad * Time.deltaTime;
 
-            else if (direccion.y == ABAJO && (posicionY - naveTamY > -camTamY))
-                transform.position += Vector3.down * velocidad * Time.deltaTime;
+        else if (direccion.y == ABAJO && (posicionY - naveTamY > -camTamY))
+            transform.position += Vector3.down * velocidad * Time.deltaTime;
 
 
-            // MOVIMIENTO HORIZONTAL -------------------------------------------------------
-            if (direccion.x == DERECHA && (posicionX + naveTamX < camTamX))
-                transform.position += Vector3.right * velocidad * Time.deltaTime;
+        // MOVIMIENTO HORIZONTAL -------------------------------------------------------
+        if (direccion.x == DERECHA && (posicionX + naveTamX < camTamX))
+            transform.position += Vector3.right * velocidad * Time.deltaTime;
 
-            else if (direccion.x == IZQUIERDA && (posicionX - naveTamX > -camTamX))
-                transform.position += Vector3.left * velocidad * Time.deltaTime;
-        }
+        else if (direccion.x == IZQUIERDA && (posicionX - naveTamX > -camTamX))
+            transform.position += Vector3.left * velocidad * Time.deltaTime;
     }
 
     /// <summary>
@@ -421,7 +412,7 @@ public class ControladorNave : MonoBehaviour
     /// </summary>
     private void Desactivar()
     {
-        estaActivo = false;
+        gameObject.SetActive(false);
     }
 
     #endregion
@@ -514,35 +505,29 @@ public class ControladorNave : MonoBehaviour
     /// <param name="_inputValue"> Información acerca de los valores de entrada. </param>
     private void OnMover(InputValue _inputValue)
     {
-        if (estaActivo)
-        {
-            direccion = _inputValue.Get<Vector2>();
-            direccion.x = Mathf.RoundToInt(direccion.x);
-            direccion.y = Mathf.RoundToInt(direccion.y);
-        }
+        direccion = _inputValue.Get<Vector2>();
+        direccion.x = Mathf.RoundToInt(direccion.x);
+        direccion.y = Mathf.RoundToInt(direccion.y);
     }
 
     /// <summary>
     /// Método que controla el disparo de la nave.
     /// </summary>
-    private void OnDisparar() { if (puedeDisparar && estaActivo) StartCoroutine(RutinaDisparar()); }
+    private void OnDisparar() { if (puedeDisparar) StartCoroutine(RutinaDisparar()); }
 
     /// <summary>
     /// Método que se encarga de cambiar el color de la nave.
     /// </summary>
     private void OnCambiarColor()
     {
-        if (estaActivo)
+        if (color == COLOR_NAVE.ROJO)
         {
-            if (color == COLOR_NAVE.ROJO)
-            {
-                GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_AZUL];
-                color = COLOR_NAVE.AZUL;
-            } else
-            {
-                GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_ROJA];
-                color = COLOR_NAVE.ROJO;
-            }
+            GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_AZUL];
+            color = COLOR_NAVE.AZUL;
+        } else
+        {
+            GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_ROJA];
+            color = COLOR_NAVE.ROJO;
         }
     }
 
