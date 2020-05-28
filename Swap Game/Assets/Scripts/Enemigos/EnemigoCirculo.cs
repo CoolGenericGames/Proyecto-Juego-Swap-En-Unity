@@ -41,7 +41,7 @@ public class EnemigoCirculo : EnemigoBase
     private void OnTriggerEnter2D(Collider2D _collider2D)
     {
         // Si colisiona con el proyectil.
-        if (_collider2D.CompareTag("Proyectil"))
+        if (_collider2D.CompareTag(Constantes.TAG_PROYECTIL_NAVE))
         {
             // Se crean los proyectiles.
             CrearProyectil();

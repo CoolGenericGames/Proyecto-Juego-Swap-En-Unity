@@ -299,7 +299,9 @@ public class ControladorNave : MonoBehaviour
         if (esInvencible == false)
         {
             // Si la nave colisiona directamente contra un enemigo.
-            if (_collider2D.CompareTag("Enemigo") || _collider2D.CompareTag("EnemigoC") || _collider2D.CompareTag("EnemigoC2"))
+            if (_collider2D.CompareTag(Constantes.TAG_ENEMIGO_CUADRADO) || 
+                _collider2D.CompareTag(Constantes.TAG_ENEMIGO_TRIANGULO) || 
+                _collider2D.CompareTag(Constantes.TAG_ENEMIGO_CIRCULO))
             {
                 Explotar(_collider2D.transform.position, _collider2D.gameObject);
                 Explotar(transform.position);
@@ -308,7 +310,7 @@ public class ControladorNave : MonoBehaviour
                 vidas--;
             } 
             // Si colisiona con un proyectil enemigo.
-            else if (_collider2D.CompareTag("BalaEnemigo"))
+            else if (_collider2D.CompareTag(Constantes.TAG_PROYECTIL_ENEMIGO))
             {
                 // Si es un proyectil normal.
                 if (_collider2D.gameObject.GetComponent<BalaEnemigo>() != null)

@@ -168,7 +168,7 @@ public class GameplayUI : MonoBehaviour
     /// <summary>
     /// Método que es invocado por un botón para regresar al menu.
     /// </summary>
-    public void RegresarAlMenu() { SceneManager.LoadScene("Menu"); }
+    public void RegresarAlLobby() { SceneManager.LoadScene("Lobby", LoadSceneMode.Single); }
 
     #endregion
 

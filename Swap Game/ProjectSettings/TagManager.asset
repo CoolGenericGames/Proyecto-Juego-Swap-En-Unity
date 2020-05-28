@@ -4,13 +4,15 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Enemigo
   - Tile
   - Nave
   - BalaEnemigo
-  - EnemigoC
-  - EnemigoC2
   - Proyectil
+  - EnemigoCuadrado
+  - EnemigoTriangulo
+  - EnemigoCirculo
+  - Enemigo
+  - ProyectilEnemigo
   layers:
   - Default
   - TransparentFX

@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovimientoBala : MonoBehaviour
+public class ProyectilNave : MonoBehaviour
 {
     #region CONSTANTES
 
@@ -61,9 +61,11 @@ public class MovimientoBala : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D _collider2D)
     {
         // Si colisiona con un enemigo.
-        if (_collider2D.CompareTag("Enemigo") || _collider2D.CompareTag("EnemigoC2") || _collider2D.CompareTag("EnemigoC"))
+        if (_collider2D.CompareTag(Constantes.TAG_ENEMIGO_CUADRADO)  || 
+            _collider2D.CompareTag(Constantes.TAG_ENEMIGO_TRIANGULO) ||
+            _collider2D.CompareTag(Constantes.TAG_ENEMIGO_CIRCULO))
         {
-            DevolverALaLista(gameObject);
+            Explotar(transform.position, gameObject);
         }
     }
 

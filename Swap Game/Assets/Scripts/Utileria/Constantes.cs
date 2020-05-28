@@ -24,11 +24,37 @@ public class Constantes : MonoBehaviour
     /// </summary>
     public const string JUGADOR_VIDAS = "JugadorVidas";
 
+
     // PARTIDA ---------------------------------------------------------------------
     /// <summary>
     /// Número máximo de jugadores por partida.
     /// </summary>
     public const int MAXIMO_JUGADORES_PARTIDA = 2;
+
+
+    // ETIQUETAS -------------------------------------------------------------------
+    /// <summary>
+    /// Etiqueta que permite reconocer al enemigo cuadrado.
+    /// </summary>
+    public const string TAG_ENEMIGO_CUADRADO = "EnemigoCuadrado";
+    /// <summary>
+    /// Etiqueta que permite reconocer al enemigo triangulo.
+    /// </summary>
+    public const string TAG_ENEMIGO_TRIANGULO = "EnemigoTriangulo";
+    /// <summary>
+    /// Etiqueta que permite reconocer al enemigo circulo.
+    /// </summary>
+    public const string TAG_ENEMIGO_CIRCULO = "EnemigoCirculo";
+
+    /// <summary>
+    /// Etiqueta que permite reconocer los proyectiles del enemigo.
+    /// </summary>
+    public const string TAG_PROYECTIL_ENEMIGO = "ProyectilEnemigo";
+    /// <summary>
+    /// Etiqueta que permite reconocer los proyectiles de la nave.
+    /// </summary>
+    public const string TAG_PROYECTIL_NAVE = "Proyectil";
+
 
     #endregion
 
