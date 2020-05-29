@@ -69,9 +69,9 @@ public class Constantes : MonoBehaviour
     {
         switch (_indiceColor)
         {
-            case 0: return Color.red;
+            case 0: return Color.blue;
             case 1: return Color.green;
-            case 2: return Color.blue;
+            case 2: return Color.red;
             case 3: return Color.yellow;
             case 4: return Color.cyan;
             case 5: return Color.grey;

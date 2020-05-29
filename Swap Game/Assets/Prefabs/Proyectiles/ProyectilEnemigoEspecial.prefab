@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9023192203822245826}
   - component: {fileID: -2853977412979231991}
   m_Layer: 0
-  m_Name: BalaEnemigoEspecial
+  m_Name: ProyectilEnemigoEspecial
   m_TagString: ProyectilEnemigo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
+  m_Sprite: {fileID: 5020165319282342337, guid: 4a624ed1d94192744b64f0c5f57e384b,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

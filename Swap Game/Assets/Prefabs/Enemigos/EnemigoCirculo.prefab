@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: -981496790141133154, guid: b8240938a755f784f89219d63e1a4011,
+  m_Sprite: {fileID: 2998157027134388548, guid: 4a624ed1d94192744b64f0c5f57e384b,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -103,11 +103,11 @@ MonoBehaviour:
   priyectil: {fileID: 3209530571280822052, guid: 71320050cdd507e4d9cba4f30b7f6c32,
     type: 3}
   spritesEnemigo:
-  - {fileID: 7448834561180846053, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  - {fileID: -981496790141133154, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  spriteProyectilAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+  - {fileID: -990759927856398890, guid: 4a624ed1d94192744b64f0c5f57e384b, type: 3}
+  - {fileID: 2998157027134388548, guid: 4a624ed1d94192744b64f0c5f57e384b, type: 3}
+  spriteProyectilAzul: {fileID: -1668673037501118674, guid: 4a624ed1d94192744b64f0c5f57e384b,
     type: 3}
-  spriteProyectilRojo: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
+  spriteProyectilRojo: {fileID: 5020165319282342337, guid: 4a624ed1d94192744b64f0c5f57e384b,
     type: 3}
 --- !u!58 &2864647041987342929
 CircleCollider2D:

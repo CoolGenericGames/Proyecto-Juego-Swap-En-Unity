@@ -34,7 +34,7 @@ public class BalaEnemigo : MonoBehaviour
 
     #endregion
 
-    #region Métodos de Unity
+    #region MÉTODO DE UNITY
 
     // Se inicializan las variables.
     void Start() => velocidad = VELOCIDAD_INICIAL;

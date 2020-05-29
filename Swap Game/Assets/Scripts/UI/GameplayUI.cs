@@ -1,10 +1,11 @@
-﻿using System.Collections;
+﻿using Photon.Pun;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class GameplayUI : MonoBehaviour
+public class GameplayUI : MonoBehaviourPunCallbacks
 {
     #region CONSTANTES
 
@@ -41,7 +42,14 @@ public class GameplayUI : MonoBehaviour
 
 
     [Header("TEXTOS DE FIN DE JUEGO")] // ------------------------------------------
+    /// <summary>
+    /// Texto que muestra los puntos 
+    /// </summary>
     public Text textoFinJuego;
+    /// <summary>
+    /// Texto que muestra los puntos finales de la partida.
+    /// </summary>
+    public Text textoFinPuntos;
 
 
     [Header("PANELES")] // ---------------------------------------------------------
@@ -59,8 +67,10 @@ public class GameplayUI : MonoBehaviour
     #region MÉTODOS DE UNITY
 
     // Suscribimos los métodos a los eventos pertinentes.
-    private void OnEnable()
+    public override void OnEnable()
     {
+        base.OnEnable();
+
         ControladorNave.evntMensajeInput += MostrarMensajeInput;
         ControladorNave.evntNombre       += ActualizarNombreJugador;
         ControladorNave.evntVida         += ActualizarVidasJugador;
@@ -71,8 +81,10 @@ public class GameplayUI : MonoBehaviour
     }
 
     // Se desuscriben todos los métodos de sus eventos.
-    private void OnDisable()
+    public override void OnDisable()
     {
+        base.OnDisable();
+
         ControladorNave.evntMensajeInput -= MostrarMensajeInput;
         ControladorNave.evntNombre       -= ActualizarNombreJugador;
         ControladorNave.evntVida         -= ActualizarVidasJugador;
@@ -80,8 +92,6 @@ public class GameplayUI : MonoBehaviour
         DatosJugador.evntPuntuacion      -= ActualizarPuntuacionJugador;
 
         ControladorRutinas.evntVictoria  -= PartidaGanada;
-
-
     }
 
     // Inicializamos las variables y componentes.
@@ -93,6 +103,7 @@ public class GameplayUI : MonoBehaviour
         textoVidas.text         = string.Empty;
 
         textoPuntuacion.text    = "0";
+        textoFinPuntos.text     = "0";
 
         // PANELES ---------------------------------------------------------------------
         panelInfoJuego.SetActive(true);
@@ -148,6 +159,7 @@ public class GameplayUI : MonoBehaviour
     private void ActualizarPuntuacionJugador(int _puntuacion)
     {
         textoPuntuacion.text = _puntuacion.ToString();
+        textoFinPuntos.text = _puntuacion.ToString();
     }
 
 
@@ -168,7 +180,22 @@ public class GameplayUI : MonoBehaviour
     /// <summary>
     /// Método que es invocado por un botón para regresar al menu.
     /// </summary>
-    public void RegresarAlLobby() { SceneManager.LoadScene("Lobby", LoadSceneMode.Single); }
+    public void RegresarAlLobby() 
+    {
+        PhotonNetwork.LeaveRoom();
+    }
+
+    #endregion
+
+    #region MÉTODOS DE PHOTON
+
+    /// <summary>
+    /// Método que es invocado cuando se abandona una partida.
+    /// </summary>
+    public override void OnLeftRoom()
+    {
+        SceneManager.LoadScene("Lobby", LoadSceneMode.Single);
+    }
 
     #endregion
 

@@ -1,8 +1,9 @@
-﻿using System;
+﻿using Photon.Pun;
+using Photon.Realtime;
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-
 
 /// <summary>
 /// Enumeración que contiene todos los colores que puede tener la nave.
@@ -37,10 +38,6 @@ public class ControladorNave : MonoBehaviour
     #region CONSTANTES
 
     // INFORMACION -----------------------------------------------------------------
-    /// <summary>
-    /// Número inicial de vidas.
-    /// </summary>
-    private const int NUM_VIDAS = 3;
     /// <summary>
     /// Sirve para saver si ocurrio un error con el dispositivo de entrada. 
     /// </summary>
@@ -88,11 +85,15 @@ public class ControladorNave : MonoBehaviour
     /// <summary>
     /// Valor del alfa de la imagen cuando la nave e sinvencible.
     /// </summary>
-    private const float ALFA_INVENCIBILIDAD = 0.2f;
+    private const float ALFA_INVENCIBILIDAD = 0.4f;
     /// <summary>
     /// Valor del alfa normal de la nave..
     /// </summary>
     private const float ALFA_NORMAL = 1f;
+    /// <summary>
+    /// Valor del alfa de la nave rival.
+    /// </summary>
+    private const float ALFA_NAVE_RIVAL = 0.6f;
 
 
     // TIEMPO -----------------------------------------------------------------------
@@ -108,6 +109,12 @@ public class ControladorNave : MonoBehaviour
     #endregion
 
     #region VARIABLES
+
+    // PHOTON ----------------------------------------------------------------------
+    /// <summary>
+    /// Representa al jugador que controla la nave.
+    /// </summary>
+    private Player piloto;
 
     // TAMAÑO ----------------------------------------------------------------------
     /// <summary>
@@ -133,16 +140,21 @@ public class ControladorNave : MonoBehaviour
     /// Cantidad de vidas que tiene la nave.
     /// </summary>
     private int vidas;
-
+    /// <summary>
+    /// Nombre de la nave.
+    /// </summary>
+    private string nombre;
     /// <summary>
     /// Color actual de la nave.
     /// </summary>
     private COLOR_NAVE color;
 
+
+    // COLOR ------------------------------------------------------------------------
     /// <summary>
-    /// Nombre de la nave.
+    /// Indica el color normal del sprite renderer.
     /// </summary>
-    private string nombre;
+    private float colorAlfaNormal;
 
 
     // MOVIMIENTO -------------------------------------------------------------------
@@ -183,7 +195,37 @@ public class ControladorNave : MonoBehaviour
 
     #endregion
 
+    #region PROPIEDADES
+
+    /// <summary>
+    /// Propiedad que permite obtener y saginar un piloto a la nave.
+    /// </summary>
+    public Player Piloto { 
+        get => piloto; 
+        set 
+        { 
+            piloto = value;
+
+
+            if (piloto == PhotonNetwork.LocalPlayer)
+            {
+                colorAlfaNormal = ALFA_NORMAL;
+            } else
+            {
+                colorAlfaNormal = ALFA_NAVE_RIVAL;
+            }
+        }
+    }
+
+    #endregion
+
     #region COMPONENTES
+
+    // PHOTON ----------------------------------------------------------------------
+    /// <summary>
+    /// Referencia al componente photonView
+    /// </summary>
+    private PhotonView photonView;
 
     // CAMARA ----------------------------------------------------------------------
     /// <summary>
@@ -240,6 +282,9 @@ public class ControladorNave : MonoBehaviour
     // Se inicializan los componentes.
     private void Awake()
     {
+        // PHOTON ----------------------------------------------------------------------
+        photonView = GetComponent<PhotonView>();
+
         // CAMARA ----------------------------------------------------------------------
         camara = Camera.main;
 
@@ -253,6 +298,9 @@ public class ControladorNave : MonoBehaviour
     // Se inicializan las variables.
     private void Start()
     {
+        // PHOTON ----------------------------------------------------------------------
+        piloto = null;
+
         // TAMAÑO ----------------------------------------------------------------------
         camTamX = camara.orthographicSize * camara.aspect;
         camTamY = camara.orthographicSize;
@@ -261,7 +309,7 @@ public class ControladorNave : MonoBehaviour
         naveTamY = GetComponent<SpriteRenderer>().bounds.size.y / 2;
 
         // DATOS -----------------------------------------------------------------------
-        vidas = NUM_VIDAS;
+        vidas = Constantes.JUGADOR_NUM_VIDAS;
         color = COLOR_NAVE.ROJO;
 
         // Se invoca el evento que informa de las vidas.
@@ -287,6 +335,9 @@ public class ControladorNave : MonoBehaviour
     // Se actualiza la lógica del juego.
     private void Update()
     {
+        // Si la nave no es nuestra, regresamos el control.
+        if (!photonView.IsMine) return;
+
         Mover();
     }
 
@@ -298,21 +349,23 @@ public class ControladorNave : MonoBehaviour
     {
         if (esInvencible == false)
         {
-            // Si la nave colisiona directamente contra un enemigo.
-            if (_collider2D.CompareTag(Constantes.TAG_ENEMIGO_CUADRADO) || 
-                _collider2D.CompareTag(Constantes.TAG_ENEMIGO_TRIANGULO) || 
+            // Si la nave colisiona directamente contra un enemigo. --------------------------------------------------------
+            if (_collider2D.CompareTag(Constantes.TAG_ENEMIGO_CUADRADO) ||
+                _collider2D.CompareTag(Constantes.TAG_ENEMIGO_TRIANGULO) ||
                 _collider2D.CompareTag(Constantes.TAG_ENEMIGO_CIRCULO))
             {
                 Explotar(_collider2D.transform.position, _collider2D.gameObject);
                 Explotar(transform.position);
 
                 StartCoroutine(RutinaInvencible());
-                vidas--;
-            } 
-            // Si colisiona con un proyectil enemigo.
+
+                // Si la nave es nuestra, restamos vidas.
+                if (photonView.IsMine) vidas--;
+            }
+            // Si colisiona con un proyectil enemigo. ---------------------------------------------------------------------
             else if (_collider2D.CompareTag(Constantes.TAG_PROYECTIL_ENEMIGO))
             {
-                // Si es un proyectil normal.
+                // Si es un proyectil normal. ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 if (_collider2D.gameObject.GetComponent<BalaEnemigo>() != null)
                 {
                     BalaEnemigo balaEnemigo = _collider2D.gameObject.GetComponent<BalaEnemigo>();
@@ -323,20 +376,22 @@ public class ControladorNave : MonoBehaviour
                         Explotar(transform.position, _collider2D.gameObject);
                         StartCoroutine(RutinaInvencible());
 
-                        vidas--;
+                        // Si la nave es nuestra, restamos vidas.
+                        if (photonView.IsMine) vidas--;
                     }
                     // Si el proyectil corresponde al color de la nave, sube la puntuación y se elimina el proyectil.
                     else
                     {
-                        if (DatosJugador.Get != null) DatosJugador.Get.Puntuacion++;
+                        if (DatosJugador.Get != null && photonView.IsMine) 
+                            DatosJugador.Get.Puntuacion++;
+
                         ObjectsRepository.BackToRepository(_collider2D.gameObject);
                     }
                 }
-                // Si es un proyectil especial
+                // Si es un proyectil especial ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 else
                 {
                     BalaEnemigoEspecial balaEnemigoEspecial = _collider2D.gameObject.GetComponent<BalaEnemigoEspecial>();
-
 
                     // Si el color de la nave es igual al color del proyectil.
                     if (balaEnemigoEspecial.color != this.color)
@@ -344,20 +399,32 @@ public class ControladorNave : MonoBehaviour
                         Explotar(transform.position, _collider2D.gameObject);
                         StartCoroutine(RutinaInvencible());
 
-                        vidas--;
+                        // Si la nave es nuestra, restamos vidas.
+                        if (photonView.IsMine) vidas--;
                     }
                     // Si el color del proyectil corresponde al de la nave, sube la puntuación y se elimina el proyectil.
                     else
                     {
-                        if (DatosJugador.Get != null) DatosJugador.Get.Puntuacion++;
+                        if (DatosJugador.Get != null && photonView.IsMine)
+                            DatosJugador.Get.Puntuacion++;
+
                         ObjectsRepository.BackToRepository(_collider2D.gameObject);
                     }
                 }
             }
 
-            // Revisar las vidas.
-            evntVida?.Invoke(vidas);
-            if (vidas < 0) Desactivar();
+
+            // Si la nave es nuestra, restamos vidas. ---------------------------------------------------------------------
+            if (photonView.IsMine)
+            {
+                // Revisar las vidas.
+                evntVida?.Invoke(vidas);
+
+                // Se desactiva la nave si ya no tiene vidas.
+                if (vidas < 0) photonView.RPC("Desactivar", RpcTarget.AllViaServer);
+            }
+
+            // -------------------------------------------------------------------------------------------------------------
         }
     }
 
@@ -368,7 +435,7 @@ public class ControladorNave : MonoBehaviour
     /// <summary>
     /// Método encargado de todo lo referente al movimiento.
     /// </summary>
-    private void Mover() 
+    private void Mover()
     {
         // Referencia a las posiciones X,Y de la nave.
         float posicionY = transform.position.y;
@@ -408,12 +475,42 @@ public class ControladorNave : MonoBehaviour
         }
     }
 
+    #endregion
+
+    #region MÉTODOS PHOTON RPC
+
     /// <summary>
     /// Permite desactivar la nave cuando se acabo el tiempo o las vidas.
     /// </summary>
+    [PunRPC]
     private void Desactivar()
     {
         gameObject.SetActive(false);
+    }
+
+    /// <summary>
+    /// Método que controla el disparo de la nave.
+    /// </summary>
+    [PunRPC] private void Disparar()
+    {
+        StartCoroutine(RutinaDisparar());
+    }
+
+    /// <summary>
+    /// Método que se encarga de cambiar el color de la nave.
+    /// </summary>
+    [PunRPC] private void CambiarColor()
+    {
+        // Cambiamos el color.
+        if (color == COLOR_NAVE.ROJO)
+        {
+            GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_AZUL];
+            color = COLOR_NAVE.AZUL;
+        } else
+        {
+            GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_ROJA];
+            color = COLOR_NAVE.ROJO;
+        }
     }
 
     #endregion
@@ -468,7 +565,7 @@ public class ControladorNave : MonoBehaviour
         yield return new WaitForSeconds(TIEMPO_DE_INVENCIBILIDAD);
 
         // Se actualiza alfa del color.
-        colorActualSprite.a = ALFA_NORMAL;
+        colorActualSprite.a = colorAlfaNormal;
         GetComponent<SpriteRenderer>().color = colorActualSprite;
 
         // Se restaura la hitbox.
@@ -506,6 +603,10 @@ public class ControladorNave : MonoBehaviour
     /// <param name="_inputValue"> Información acerca de los valores de entrada. </param>
     private void OnMover(InputValue _inputValue)
     {
+        // Si la nave no es nuestra, regresamos el control.
+        if (!photonView.IsMine) return;
+
+        // Guardamos la dirección del movimiento.
         direccion = _inputValue.Get<Vector2>();
         direccion.x = Mathf.RoundToInt(direccion.x);
         direccion.y = Mathf.RoundToInt(direccion.y);
@@ -514,22 +615,25 @@ public class ControladorNave : MonoBehaviour
     /// <summary>
     /// Método que controla el disparo de la nave.
     /// </summary>
-    private void OnDisparar() { if (puedeDisparar) StartCoroutine(RutinaDisparar()); }
+    private void OnDisparar()
+    {
+        // Si el control de la nave no es mio, no se hace nada.
+        if (!photonView.IsMine) return;
+
+        // Si puede disparar, realiza el disparo.
+        if (puedeDisparar)
+            photonView.RPC("Disparar", RpcTarget.AllViaServer);
+    }
 
     /// <summary>
     /// Método que se encarga de cambiar el color de la nave.
     /// </summary>
     private void OnCambiarColor()
     {
-        if (color == COLOR_NAVE.ROJO)
-        {
-            GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_AZUL];
-            color = COLOR_NAVE.AZUL;
-        } else
-        {
-            GetComponent<SpriteRenderer>().sprite = spritesNave[SPRITE_NAVE_ROJA];
-            color = COLOR_NAVE.ROJO;
-        }
+        // Si el control de la nave no es mio, no se hace nada.
+        if (!photonView.IsMine) return;
+
+        photonView.RPC("CambiarColor", RpcTarget.AllViaServer);
     }
 
     #endregion

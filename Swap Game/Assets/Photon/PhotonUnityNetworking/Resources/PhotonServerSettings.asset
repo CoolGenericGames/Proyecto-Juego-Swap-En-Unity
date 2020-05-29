@@ -33,6 +33,10 @@ MonoBehaviour:
   RpcList:
   - ClickRpc
   - DestroyRpc
+  - Desactivar
+  - Disparar
+  - CambiarColor
+  - IniciarPartida
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
   DevRegionSetOnce: 0

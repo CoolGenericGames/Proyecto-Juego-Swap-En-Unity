@@ -102,6 +102,8 @@ public class EntradaListaJugador : MonoBehaviour
                 if (PhotonNetwork.IsMasterClient)
                     FindObjectOfType<PanelPrincipalLobby>().ActualizarPropiedadesDelJugador();
             });
+
+            imagenListo.enabled = estaListo;
         }
     }
 
@@ -135,13 +137,16 @@ public class EntradaListaJugador : MonoBehaviour
     /// </summary>
     private void ActualizarColores()
     {
+        /*
         foreach(Player jugador in PhotonNetwork.PlayerList)
         {
             if (jugador.ActorNumber == photonID)
             {
                 imagenColorJugador.color = Constantes.ObtenerColor(jugador.GetPlayerNumber());
+                imagenListo.color = Constantes.ObtenerColor(jugador.GetPlayerNumber());
             }
         }
+        */
     }
 
     #endregion

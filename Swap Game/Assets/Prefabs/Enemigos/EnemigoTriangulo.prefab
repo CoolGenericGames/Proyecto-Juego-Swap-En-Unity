@@ -14,8 +14,8 @@ GameObject:
   - component: {fileID: 3305929303078640710}
   - component: {fileID: 6719923925562051272}
   m_Layer: 0
-  m_Name: Enemigo2
-  m_TagString: EnemigoC2
+  m_Name: EnemigoTriangulo
+  m_TagString: EnemigoTriangulo
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73,7 +73,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 3484831637148066783, guid: b8240938a755f784f89219d63e1a4011,
+  m_Sprite: {fileID: 7382827408607225058, guid: 4a624ed1d94192744b64f0c5f57e384b,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -103,11 +103,11 @@ MonoBehaviour:
   priyectil: {fileID: 3209530571280822052, guid: 71320050cdd507e4d9cba4f30b7f6c32,
     type: 3}
   spritesEnemigo:
-  - {fileID: 3484831637148066783, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  - {fileID: 5447955171986440186, guid: b8240938a755f784f89219d63e1a4011, type: 3}
-  spriteProyectilAzul: {fileID: 4292003155865227625, guid: b8240938a755f784f89219d63e1a4011,
+  - {fileID: 7382827408607225058, guid: 4a624ed1d94192744b64f0c5f57e384b, type: 3}
+  - {fileID: -7399116455347998837, guid: 4a624ed1d94192744b64f0c5f57e384b, type: 3}
+  spriteProyectilAzul: {fileID: -1668673037501118674, guid: 4a624ed1d94192744b64f0c5f57e384b,
     type: 3}
-  spriteProyectilRojo: {fileID: -4431917115239527676, guid: b8240938a755f784f89219d63e1a4011,
+  spriteProyectilRojo: {fileID: 5020165319282342337, guid: 4a624ed1d94192744b64f0c5f57e384b,
     type: 3}
 --- !u!58 &3305929303078640710
 CircleCollider2D:
